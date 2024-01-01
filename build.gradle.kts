@@ -21,4 +21,6 @@ repositories {
 dependencies {
     implementation(Libs.Ktor.core)
     implementation(Libs.Ktor.netty)
+
+    api(project(Modules.plugins))
 }
