@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    kotlin("jvm") version Version.kotlinVersion
 }
 
 group = App.group

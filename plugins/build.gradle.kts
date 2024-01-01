@@ -4,8 +4,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version Version.kotlinVersion
 }
 
-group = "com.kylix"
-version = "1.0.0"
+group = App.group
+version = App.version
 
 repositories {
     mavenCentral()
