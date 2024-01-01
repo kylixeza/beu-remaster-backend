@@ -4,6 +4,7 @@ import Version.hikariVersion
 import Version.jnanoidVersion
 import Version.kotlinVersion
 import Version.logbackVersion
+import Version.slf4jVersion
 
 object App {
     const val version = "1.0.0"
@@ -25,6 +26,7 @@ object Version {
     const val jnanoidVersion = "2.0.0"
     const val logbackVersion = "1.4.11"
     const val commonsCodecVersion = "1.15"
+    const val slf4jVersion = "2.0.10"
 }
 
 object Libs {
@@ -65,5 +67,10 @@ object Libs {
     object Util {
         const val jnanoid = "com.aventrix.jnanoid:jnanoid:$jnanoidVersion"
         const val commonsCodec = "commons-codec:commons-codec:$commonsCodecVersion"
+    }
+
+    object Slf4j {
+        const val simple = "org.slf4j:slf4j-simple:$slf4jVersion"
+        const val api = "org.slf4j:slf4j-api:$slf4jVersion"
     }
 }

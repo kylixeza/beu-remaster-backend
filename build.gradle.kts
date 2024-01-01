@@ -22,5 +22,8 @@ dependencies {
     implementation(Libs.Ktor.core)
     implementation(Libs.Ktor.netty)
 
+    implementation(Libs.Slf4j.api)
+    implementation(Libs.Slf4j.simple)
+
     api(project(Modules.plugins))
 }
