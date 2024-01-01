@@ -10,6 +10,11 @@ object App {
     const val group = "com.kylix"
 }
 
+object Modules {
+    const val core = ":core"
+    const val plugins = ":plugins"
+}
+
 object Version {
     const val kotlinVersion = "1.9.22"
     const val ktorVersion = "2.3.7"
