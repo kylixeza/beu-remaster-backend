@@ -10,7 +10,9 @@ repositories {
 }
 
 dependencies {
-
+    implementation(Libs.Database.hikari)
+    implementation(Libs.Exposed.core)
+    implementation(Libs.Exposed.jdbc)
 }
 
 tasks.test {
