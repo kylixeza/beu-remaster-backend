@@ -1,5 +1,6 @@
 package security.token
 
+import com.auth0.jwt.interfaces.DecodedJWT
 import io.ktor.server.application.*
 import security.token.TokenClaim
 import security.token.TokenConfig
@@ -11,4 +12,10 @@ interface TokenService {
     ): String
 
     suspend fun Application.invalidate(token: String, saveToDb: suspend String.() -> Unit)
+
+    suspend fun ApplicationCall.decode(token: String): DecodedJWT
+
+    suspend fun insertToBlacklist(token: String)
+
+    suspend fun isTokenValid(token: String?): Boolean
 }

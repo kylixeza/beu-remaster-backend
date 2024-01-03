@@ -4,6 +4,10 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import database.DatabaseFactory
 import org.koin.dsl.module
+import security.hashing.HashingService
+import security.hashing.SHA256HashingService
+import security.token.JWTTokenService
+import security.token.TokenService
 import java.net.URI
 
 val databaseModule = module {
@@ -32,4 +36,9 @@ val databaseModule = module {
         }
         HikariDataSource(config)
     }
+}
+
+val tokenModule = module {
+    single<TokenService> { JWTTokenService() }
+    single<HashingService> { SHA256HashingService() }
 }
