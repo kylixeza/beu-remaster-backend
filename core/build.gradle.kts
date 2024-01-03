@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version Version.kotlinVersion
+    id("io.ktor.plugin") version Version.ktorVersion
 }
 
 group = App.group
@@ -10,11 +11,15 @@ repositories {
 }
 
 dependencies {
+    implementation(Libs.Ktor.core)
+    implementation(Libs.Ktor.auth)
+    implementation(Libs.Ktor.jwt)
     implementation(Libs.Database.hikari)
     implementation(Libs.Exposed.core)
     implementation(Libs.Exposed.jdbc)
     implementation(Libs.Exposed.dateTime)
     implementation(Libs.Koin.koin)
+    implementation(Libs.Util.commonsCodec)
 }
 
 tasks.test {
