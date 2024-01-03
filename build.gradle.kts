@@ -25,5 +25,5 @@ dependencies {
     implementation(Libs.Slf4j.api)
     implementation(Libs.Slf4j.simple)
 
-    api(project(Modules.plugins))
+    implementation(project(Modules.plugins))
 }

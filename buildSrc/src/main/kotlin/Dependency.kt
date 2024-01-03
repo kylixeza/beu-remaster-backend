@@ -2,8 +2,10 @@ import Version.commonsCodecVersion
 import Version.exposedVersion
 import Version.hikariVersion
 import Version.jnanoidVersion
+import Version.koinVersion
 import Version.kotlinVersion
 import Version.logbackVersion
+import Version.postgresqlVersion
 import Version.slf4jVersion
 
 object App {
@@ -19,8 +21,8 @@ object Modules {
 object Version {
     const val kotlinVersion = "1.9.22"
     const val ktorVersion = "2.3.7"
-    const val exposedVersion = "0.41.1"
-    const val postgresqlVersion = "42.2.23"
+    const val exposedVersion = "0.45.0"
+    const val postgresqlVersion = "42.5.4"
     const val koinVersion = "3.5.3"
     const val hikariVersion = "5.0.1"
     const val jnanoidVersion = "2.0.0"
@@ -46,18 +48,19 @@ object Libs {
     }
 
     object Exposed {
-        const val core = ("org.jetbrains.exposed:exposed-core:$exposedVersion")
-        const val jdbc = ("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+        const val core = "org.jetbrains.exposed:exposed-core:$exposedVersion"
+        const val jdbc = "org.jetbrains.exposed:exposed-jdbc:$exposedVersion"
+        const val dateTime = "org.jetbrains.exposed:exposed-kotlin-datetime:$exposedVersion"
     }
 
     object Database {
-        const val postgresql = "org.postgresql:postgresql:42.2.23"
+        const val postgresql = "org.postgresql:postgresql:$postgresqlVersion"
         const val hikari = "com.zaxxer:HikariCP:$hikariVersion"
     }
 
     object Koin {
-        const val koin = "io.insert-koin:koin-core:3.1.2"
-        const val koinKtor = "io.insert-koin:koin-ktor:3.1.2"
+        const val koin = "io.insert-koin:koin-core:$koinVersion"
+        const val koinKtor = "io.insert-koin:koin-ktor:$koinVersion"
     }
 
     object Test {

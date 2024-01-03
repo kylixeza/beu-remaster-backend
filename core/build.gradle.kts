@@ -13,6 +13,8 @@ dependencies {
     implementation(Libs.Database.hikari)
     implementation(Libs.Exposed.core)
     implementation(Libs.Exposed.jdbc)
+    implementation(Libs.Exposed.dateTime)
+    implementation(Libs.Koin.koin)
 }
 
 tasks.test {
