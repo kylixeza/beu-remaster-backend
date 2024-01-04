@@ -21,11 +21,13 @@ class Middleware(
             if (expirationDate.before(currentDate)) {
                 buildErrorJson(httpStatusCode = Unauthorized, message = "Token expired")
             }
+            return
         }
 
         if (!isValid) {
             buildErrorJson(httpStatusCode = Unauthorized, message = "Invalid token")
         }
+        return
     }
 
     inline fun<reified T: Any> getClaim(call: ApplicationCall, claimName: String) = kotlin.run {
