@@ -10,5 +10,5 @@ import route.AuthRoute
 val authModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single<AuthController> { AuthControllerImpl(get(), get(), get()) }
-    factory<AuthRoute> { AuthRoute(get(), get()) }
+    factory<AuthRoute> { AuthRoute(get()) }
 }

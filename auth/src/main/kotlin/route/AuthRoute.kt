@@ -1,19 +1,14 @@
 package route
 
-import Middleware
 import controller.AuthController
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import model.auth.LoginRequest
 import model.auth.RegisterRequest
-import security.token.TokenService
 
 class AuthRoute(
     private val controller: AuthController,
-    private val middleware: Middleware,
 ) {
 
     private fun Route.register() {
@@ -37,16 +32,9 @@ class AuthRoute(
         }
     }
 
-    private fun Route.testJwt() = middleware.apply {
-        authenticate(HTTPVerb.GET, "/test-jwt") { uid, call ->
-            call.respondText("uid: $uid")
-        }
-    }
-
     fun Route.initRoutes() {
         register()
         login()
         logout()
-        testJwt()
     }
 }

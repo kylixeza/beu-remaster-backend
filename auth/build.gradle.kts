@@ -12,15 +12,11 @@ repositories {
 
 dependencies {
     implementation(Libs.Ktor.core)
-    implementation(Libs.Ktor.auth)
-    implementation(Libs.Ktor.jwt)
     implementation(Libs.Ktor.gson)
     implementation(Libs.Koin.koin)
     implementation(Libs.Exposed.core)
-    implementation(Libs.Util.commonsCodec)
 
     implementation(project(Modules.core))
-    implementation(project(Modules.middleware))
 }
 
 tasks.test {
