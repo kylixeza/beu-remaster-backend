@@ -13,8 +13,6 @@ interface TokenService {
 
     suspend fun Application.invalidate(token: String, saveToDb: suspend String.() -> Unit)
 
-    suspend fun ApplicationCall.decode(token: String): DecodedJWT
-
     suspend fun insertToBlacklist(token: String)
 
     suspend fun isTokenValid(token: String?): Boolean

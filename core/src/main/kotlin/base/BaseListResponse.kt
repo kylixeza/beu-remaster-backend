@@ -1,11 +1,9 @@
 package base
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.google.gson.annotations.SerializedName
 
-@Serializable
 data class BaseListResponse<T>(
-	@SerialName("status_code")
+	@field:SerializedName("status_code")
 	var statusCode: Int = 0,
 	val message: String = "",
 	val count: Int = 0,

@@ -16,6 +16,8 @@ object App {
 object Modules {
     const val core = ":core"
     const val plugins = ":plugins"
+    const val middleware = ":middleware"
+    const val auth = ":auth"
 }
 
 object Version {
@@ -38,6 +40,7 @@ object Libs {
         const val jwt = "io.ktor:ktor-server-auth-jwt-jvm"
         const val cn = "io.ktor:ktor-server-content-negotiation-jvm"
         const val serialization = "io.ktor:ktor-serialization-kotlinx-json-jvm"
+        const val gson = "io.ktor:ktor-serialization-gson-jvm"
         const val resources = "io.ktor:ktor-server-resources"
         const val cors = "io.ktor:ktor-server-cors-jvm"
         const val netty = "io.ktor:ktor-server-netty-jvm"

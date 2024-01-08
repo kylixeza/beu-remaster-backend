@@ -1,4 +1,4 @@
-import base.buildErrorJson
+import base.buildErrorResponse
 import io.ktor.http.HttpStatusCode.Companion.Unauthorized
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -15,18 +15,8 @@ class Middleware(
         val jwt = request.header("Authorization")?.substring("Bearer ".length)
         val isValid = tokenService.run { isTokenValid(jwt) }
 
-        jwt?.let {
-            val decodedJWT = tokenService.run { decode(jwt) }
-            val expirationDate = decodedJWT.expiresAt
-            val currentDate = Date()
-            if (expirationDate.before(currentDate)) {
-                buildErrorJson(httpStatusCode = Unauthorized, message = "Token expired")
-            }
-            return
-        }
-
         if (!isValid) {
-            buildErrorJson(httpStatusCode = Unauthorized, message = "Invalid token")
+            buildErrorResponse(httpStatusCode = Unauthorized, message = "Invalid token")
         }
         return
     }
@@ -36,21 +26,21 @@ class Middleware(
         principal?.getClaim(claimName, T::class)
     }
 
-    private fun ApplicationCall.getUidClaim() = getClaim<String>("uid")
+    fun ApplicationCall.getUidClaim() = getClaim<String>("uid")
 
-    suspend fun Route.authenticate(call: ApplicationCall, http: HTTPVerb, route: String, onAction: (String) -> Unit) = authenticate {
+    fun Route.authenticate(http: HTTPVerb, routes: String, onAction: suspend (String, ApplicationCall) -> Unit) = authenticate {
 
-        suspend fun internalAuthentication() {
-            call.validateToken()
-            val uid = call.getUidClaim()
-            onAction(uid.orEmpty())
+        suspend fun ApplicationCall.internalAuthentication() {
+            validateToken()
+            val uid = getUidClaim()
+            onAction(uid.orEmpty(), this)
         }
 
         when(http) {
-            HTTPVerb.GET -> get(route) { internalAuthentication() }
-            HTTPVerb.POST -> post(route) { internalAuthentication() }
-            HTTPVerb.PUT -> put(route) { internalAuthentication() }
-            HTTPVerb.DELETE -> delete(route) { internalAuthentication() }
+            HTTPVerb.GET -> get(routes) { call.internalAuthentication() }
+            HTTPVerb.POST -> post(routes) { call.internalAuthentication() }
+            HTTPVerb.PUT -> put(routes) { call.internalAuthentication() }
+            HTTPVerb.DELETE -> delete(routes) { call.internalAuthentication() }
         }
     }
 }

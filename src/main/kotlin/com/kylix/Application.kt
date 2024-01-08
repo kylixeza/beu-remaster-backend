@@ -20,8 +20,8 @@ fun main() {
 
 fun Application.module() {
     configureInjection()
-    configureRouting()
     configureSecurity()
+    configureRouting()
     configureSerialization()
     configureHTTP()
 }

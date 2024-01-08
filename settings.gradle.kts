@@ -5,3 +5,5 @@ rootProject.name = "beu-skripsi-backend"
 
 include("core")
 include("plugins")
+include("auth")
+include("middleware")

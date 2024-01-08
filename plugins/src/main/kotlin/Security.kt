@@ -1,27 +1,31 @@
+import base.buildErrorResponse
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import io.ktor.http.*
+import io.ktor.http.auth.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
+import io.ktor.server.response.*
+import security.token.Config.tokenConfig
 
 fun Application.configureSecurity() {
-    // Please read the jwt property from the config file if you are using EngineMain
-    val jwtAudience = "jwt-audience"
-    val jwtDomain = "https://jwt-provider-domain/"
-    val jwtRealm = "ktor sample app"
-    val jwtSecret = "secret"
     authentication {
         jwt {
-            realm = jwtRealm
+            val tokenConfig = tokenConfig
+            realm = System.getenv("JWT_REALM")
             verifier(
                 JWT
-                    .require(Algorithm.HMAC256(jwtSecret))
-                    .withAudience(jwtAudience)
-                    .withIssuer(jwtDomain)
+                    .require(Algorithm.HMAC256(tokenConfig.secret))
+                    .withAudience(tokenConfig.audience)
+                    .withIssuer(tokenConfig.issuer)
                     .build()
             )
             validate { credential ->
-                if (credential.payload.audience.contains(jwtAudience)) JWTPrincipal(credential.payload) else null
+                if (credential.payload.audience.contains(tokenConfig.audience)) JWTPrincipal(credential.payload) else null
+            }
+            challenge {_, _ ->
+                call.buildErrorResponse(httpStatusCode = HttpStatusCode.Unauthorized, message = "Token expired or invalid")
             }
         }
     }

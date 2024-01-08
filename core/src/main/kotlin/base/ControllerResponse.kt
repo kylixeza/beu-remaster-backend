@@ -5,8 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.response.*
 
-
-suspend inline fun <reified T> ApplicationCall.buildSuccessJson(
+suspend inline fun <reified T> ApplicationCall.buildSuccessResponse(
     messagePlaceholder: String? = null,
     noinline action: suspend () -> T
 ) {
@@ -21,34 +20,34 @@ suspend inline fun <reified T> ApplicationCall.buildSuccessJson(
             )
         )
     } catch (e: Exception) {
-        this@buildSuccessJson.buildErrorJson(e)
+        this@buildSuccessResponse.buildErrorResponse(e)
     }
 }
 
-suspend inline fun ApplicationCall.buildErrorJson(exception: Exception) {
+suspend inline fun ApplicationCall.buildErrorResponse(exception: Exception) {
     when (exception) {
         is BadRequestException -> this.respond(
             HttpStatusCode.BadRequest,
-            BaseResponse(HttpStatusCode.BadRequest.value, exception.message.toString(), null)
+            BaseResponse(HttpStatusCode.BadRequest.value, exception.message.toString(),null)
         )
 
         is NotFoundException -> this.respond(
             HttpStatusCode.NotFound,
-            BaseResponse(HttpStatusCode.NotFound.value, exception.message.toString(), null)
+            BaseResponse(HttpStatusCode.NotFound.value, exception.message.toString(),null)
         )
 
         else -> this.respond(
             HttpStatusCode.Conflict,
-            BaseResponse(HttpStatusCode.Conflict.value, exception.message.toString(), null)
+            BaseResponse(HttpStatusCode.Conflict.value, exception.message.toString(),null)
         )
     }
 }
 
-suspend inline fun ApplicationCall.buildErrorJson(httpStatusCode: HttpStatusCode = HttpStatusCode.Conflict, message: String) {
-    this.respond(httpStatusCode, BaseResponse(httpStatusCode.value, message, null))
+suspend inline fun ApplicationCall.buildErrorResponse(httpStatusCode: HttpStatusCode = HttpStatusCode.Conflict, message: String) {
+    this.respond(httpStatusCode, BaseResponse(httpStatusCode.value, message,null))
 }
 
-suspend inline fun <reified T> ApplicationCall.buildSuccessListJson(noinline action: suspend () -> T) {
+suspend inline fun <reified T> ApplicationCall.buildSuccessListResponse(noinline action: suspend () -> T) {
     try {
         val count = count { action() as List<*> }
         this.respond(
@@ -62,11 +61,11 @@ suspend inline fun <reified T> ApplicationCall.buildSuccessListJson(noinline act
         )
 
     } catch (e: Exception) {
-        this@buildSuccessListJson.buildErrorListJson(e)
+        this@buildSuccessListResponse.buildErrorListResponse(e)
     }
 }
 
-suspend inline fun ApplicationCall.buildErrorListJson(e: Exception) {
+suspend inline fun ApplicationCall.buildErrorListResponse(e: Exception) {
     val listResponse = BaseListResponse(message = e.message.toString(), count = 0, data = arrayListOf<Any>())
     when (e) {
         is BadRequestException -> {

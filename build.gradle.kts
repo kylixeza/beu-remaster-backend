@@ -1,7 +1,6 @@
 plugins {
     kotlin("jvm") version Version.kotlinVersion
     id("io.ktor.plugin") version Version.ktorVersion
-    id("org.jetbrains.kotlin.plugin.serialization") version Version.kotlinVersion
 }
 
 group = App.group

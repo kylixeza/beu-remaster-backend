@@ -13,4 +13,6 @@ object ReviewTable: Table() {
     val rating = integer("rating").default(0)
     val comment = varchar("comment", 255).nullable()
     val timeStamp = datetime("time_stamp")
+
+    override val primaryKey: PrimaryKey = PrimaryKey(reviewId)
 }

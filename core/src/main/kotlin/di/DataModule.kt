@@ -15,7 +15,7 @@ val databaseModule = module {
         DatabaseFactory(get())
     }
 
-    factory {
+    single {
         val config = HikariConfig()
         config.apply {
             driverClassName = System.getenv("JDBC_DRIVER")
@@ -39,6 +39,6 @@ val databaseModule = module {
 }
 
 val tokenModule = module {
-    single<TokenService> { JWTTokenService() }
+    single<TokenService> { JWTTokenService(get()) }
     single<HashingService> { SHA256HashingService() }
 }

@@ -1,3 +1,4 @@
+import di.authModule
 import di.databaseModule
 import di.tokenModule
 import io.ktor.server.application.*
@@ -7,5 +8,7 @@ fun Application.configureInjection() {
     install(Koin) {
         modules(databaseModule)
         modules(tokenModule)
+        modules(middlewareModule)
+        modules(authModule)
     }
 }
