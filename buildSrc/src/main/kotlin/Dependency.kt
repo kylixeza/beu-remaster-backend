@@ -7,6 +7,7 @@ import Version.kotlinVersion
 import Version.logbackVersion
 import Version.postgresqlVersion
 import Version.slf4jVersion
+import Version.kotlinxDateTime
 
 object App {
     const val version = "1.0.0"
@@ -18,6 +19,7 @@ object Modules {
     const val plugins = ":plugins"
     const val middleware = ":middleware"
     const val auth = ":auth"
+    const val recipe = ":recipe"
 }
 
 object Version {
@@ -31,6 +33,7 @@ object Version {
     const val logbackVersion = "1.4.11"
     const val commonsCodecVersion = "1.15"
     const val slf4jVersion = "2.0.10"
+    const val kotlinxDateTime = "0.5.0"
 }
 
 object Libs {
@@ -73,6 +76,7 @@ object Libs {
     object Util {
         const val jnanoid = "com.aventrix.jnanoid:jnanoid:$jnanoidVersion"
         const val commonsCodec = "commons-codec:commons-codec:$commonsCodecVersion"
+        const val dateTime = "org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDateTime"
     }
 
     object Slf4j {

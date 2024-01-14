@@ -1,14 +1,17 @@
-import di.authModule
-import di.databaseModule
-import di.tokenModule
+import di.*
 import io.ktor.server.application.*
 import org.koin.ktor.plugin.Koin
 
 fun Application.configureInjection() {
     install(Koin) {
-        modules(databaseModule)
-        modules(tokenModule)
-        modules(middlewareModule)
-        modules(authModule)
+        modules(
+            databaseModule,
+            tokenModule,
+            middlewareModule,
+            authModule,
+            recipeModule,
+            categoryModule,
+            nutritionModule
+        )
     }
 }

@@ -24,6 +24,7 @@ dependencies {
 
     implementation(project(Modules.core))
     implementation(project(Modules.auth))
+    implementation(project(Modules.recipe))
     implementation(project(Modules.middleware))
 }
 

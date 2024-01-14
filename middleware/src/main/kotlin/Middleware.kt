@@ -28,7 +28,7 @@ class Middleware(
 
     fun ApplicationCall.getUidClaim() = getClaim<String>("uid")
 
-    fun Route.authenticate(http: HTTPVerb, routes: String, onAction: suspend (String, ApplicationCall) -> Unit) = authenticate {
+    fun Route.authenticate(http: HTTPVerb, routes: String = "", onAction: suspend (String, ApplicationCall) -> Unit) = authenticate {
 
         suspend fun ApplicationCall.internalAuthentication() {
             validateToken()
