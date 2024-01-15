@@ -11,7 +11,7 @@ object CommentTable: Table() {
     val replyCommentId = reference("reply_comment_id", commentId).nullable()
     val uid = reference("uid", UserTable.uid)
     val recipeId = reference("recipe_id", RecipeTable.recipeId)
-    val comment = varchar("comment", 255).nullable()
+    val comment = varchar("comment", 255)
     val timeStamp = datetime("time_stamp")
 
     override val primaryKey: PrimaryKey? = PrimaryKey(commentId)

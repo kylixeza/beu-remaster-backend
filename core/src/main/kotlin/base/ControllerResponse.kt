@@ -49,14 +49,15 @@ suspend inline fun ApplicationCall.buildErrorResponse(httpStatusCode: HttpStatus
 
 suspend inline fun <reified T> ApplicationCall.buildSuccessListResponse(noinline action: suspend () -> T) {
     try {
-        val count = count { action() as List<*> }
+        val data = action()
+        val count = count { data as List<*> }
         this.respond(
             HttpStatusCode.OK,
             BaseListResponse(
                 HttpStatusCode.OK.value,
                 "Request Success",
                 count,
-                action()
+                data
             )
         )
 

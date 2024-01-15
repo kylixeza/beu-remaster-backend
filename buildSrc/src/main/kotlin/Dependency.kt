@@ -20,6 +20,7 @@ object Modules {
     const val middleware = ":middleware"
     const val auth = ":auth"
     const val recipe = ":recipe"
+    const val comment = ":comment"
 }
 
 object Version {

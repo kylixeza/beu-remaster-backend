@@ -1,6 +1,8 @@
 package route.recipe
 
+import HTTPVerb
 import Middleware
+import base.BaseRoute
 import controller.recipe.RecipeController
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
@@ -10,7 +12,9 @@ class RecipeRoute(
     private val middleware: Middleware
 ) {
 
-    fun Route.recipes() {
+    fun Route.recipes(
+        vararg routesUnderRecipes: BaseRoute
+    ) {
 
         route("/recipes") {
 
@@ -30,10 +34,16 @@ class RecipeRoute(
                 }
             }
 
-            middleware.apply {
-                authenticate(HTTPVerb.GET, "/{recipeId}") { uid, call ->
-                    val recipeId = call.parameters["recipeId"].orEmpty()
-                    recipeController.apply { call.getDetailRecipe(uid, recipeId) }
+            route("/{recipeId}") {
+                middleware.apply {
+                    authenticate(HTTPVerb.GET) { uid, call ->
+                        val recipeId = call.parameters["recipeId"].orEmpty()
+                        recipeController.apply { call.getDetailRecipe(uid, recipeId) }
+                    }
+                }
+
+                routesUnderRecipes.forEach {
+                    it.apply { routes() }
                 }
             }
         }
