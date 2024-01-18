@@ -22,6 +22,7 @@ dependencies {
     implementation(Libs.Exposed.dateTime)
     implementation(Libs.Koin.koin)
     implementation(Libs.Util.commonsCodec)
+    implementation(Libs.GoogleCloud.storage)
 }
 
 tasks.test {

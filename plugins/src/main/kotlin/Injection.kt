@@ -12,7 +12,8 @@ fun Application.configureInjection() {
             recipeModule,
             categoryModule,
             nutritionModule,
-            commentModule
+            commentModule,
+            historyModule,
         )
     }
 }

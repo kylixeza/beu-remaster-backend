@@ -29,3 +29,22 @@ fun LocalDateTime.durationSince(): String = run {
         else -> "$dayOfMonth-$monthNumber-$year"
     }
 }
+
+fun LocalDateTime.breakDown() = run {
+    "$dayOfMonth ${month.toIndonesianLocal()} $year, $hour:$minute"
+}
+
+private fun Month.toIndonesianLocal() = when(this) {
+    java.time.Month.JANUARY -> "Januari"
+    java.time.Month.FEBRUARY -> "Februari"
+    java.time.Month.MARCH -> "Maret"
+    java.time.Month.APRIL -> "April"
+    java.time.Month.MAY -> "Mei"
+    java.time.Month.JUNE -> "Juni"
+    java.time.Month.JULY -> "Juli"
+    java.time.Month.AUGUST -> "Agustus"
+    java.time.Month.SEPTEMBER -> "September"
+    java.time.Month.OCTOBER -> "Oktober"
+    java.time.Month.NOVEMBER -> "November"
+    else -> "Desember"
+}

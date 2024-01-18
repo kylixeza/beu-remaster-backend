@@ -21,6 +21,7 @@ object Modules {
     const val auth = ":auth"
     const val recipe = ":recipe"
     const val comment = ":comment"
+    const val history = ":history"
 }
 
 object Version {
@@ -83,5 +84,9 @@ object Libs {
     object Slf4j {
         const val simple = "org.slf4j:slf4j-simple:$slf4jVersion"
         const val api = "org.slf4j:slf4j-api:$slf4jVersion"
+    }
+
+    object GoogleCloud {
+        const val storage = "com.google.cloud:google-cloud-storage:2.30.0"
     }
 }

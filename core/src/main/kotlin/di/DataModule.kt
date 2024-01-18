@@ -1,5 +1,8 @@
 package di
 
+import com.google.auth.Credentials
+import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.storage.StorageOptions
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import database.DatabaseFactory
@@ -8,6 +11,7 @@ import security.hashing.HashingService
 import security.hashing.SHA256HashingService
 import security.token.JWTTokenService
 import security.token.TokenService
+import java.io.FileInputStream
 import java.net.URI
 
 val databaseModule = module {
@@ -35,6 +39,18 @@ val databaseModule = module {
             validate()
         }
         HikariDataSource(config)
+    }
+}
+
+val storageModule = module {
+    single {
+        val credentialsPath = "beu-service.json" // Replace with the actual path to your key file
+        val serviceAccountStream = FileInputStream(credentialsPath)
+        val credentials = GoogleCredentials.fromStream(serviceAccountStream)
+
+        StorageOptions.newBuilder()
+            .setCredentials(credentials)
+            .build()
     }
 }
 

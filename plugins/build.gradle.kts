@@ -26,6 +26,7 @@ dependencies {
     implementation(project(Modules.auth))
     implementation(project(Modules.recipe))
     implementation(project(Modules.comment))
+    implementation(project(Modules.history))
     implementation(project(Modules.middleware))
 }
 

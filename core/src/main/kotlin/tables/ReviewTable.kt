@@ -8,6 +8,7 @@ object ReviewTable: Table() {
     override val tableName: String = "review"
 
     val reviewId = varchar("review_id", 128)
+    val historyId = reference("history_id", HistoryTable.historyId)
     val uid = reference("uid", UserTable.uid)
     val recipeId = reference("recipe_id", RecipeTable.recipeId)
     val rating = integer("rating").default(0)
