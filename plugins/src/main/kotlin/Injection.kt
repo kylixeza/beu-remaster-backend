@@ -16,6 +16,7 @@ fun Application.configureInjection() {
             commentModule,
             historyModule,
             reviewModule,
+            favoriteModule
         )
     }
 }

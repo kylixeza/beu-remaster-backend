@@ -29,9 +29,8 @@ dependencies {
     implementation(project(Modules.comment))
     implementation(project(Modules.history))
     implementation(project(Modules.review))
+    implementation(project(Modules.favorite))
     implementation(project(Modules.middleware))
-    implementation("io.ktor:ktor-server-core-jvm:2.3.7")
-    implementation("io.ktor:ktor-server-double-receive-jvm:2.3.7")
 }
 
 tasks.test {

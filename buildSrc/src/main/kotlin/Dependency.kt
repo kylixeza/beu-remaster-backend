@@ -22,6 +22,7 @@ object Modules {
     const val recipe = ":recipe"
     const val comment = ":comment"
     const val history = ":history"
+    const val favorite = ":favorite"
     const val review = ":review"
 }
 
