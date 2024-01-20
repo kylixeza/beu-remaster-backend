@@ -1,5 +1,6 @@
 package storage
 
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.StorageOptions
 import io.ktor.http.*
@@ -7,8 +8,9 @@ import io.ktor.http.*
 class GoogleCloudStorageService(
     private val storage: StorageOptions
 ): CloudStorageService {
-    override suspend fun uploadFile(fileName: String, fileBytes: ByteArray): String {
+    override fun ByteArray.uploadFile(filePath: String): String {
         val service = storage.service
+        val fileName = "$filePath${NanoIdUtils.randomNanoId()}"
         val bucketName = if (System.getenv("ENV") == "DEV") {
             "beu-dev"
         } else {
@@ -18,7 +20,8 @@ class GoogleCloudStorageService(
             .setContentType(ContentType.Image.JPEG.toString())
             .build()
 
-        service.create(blob, fileBytes)
-        return service.get(bucketName, fileName).mediaLink
+        service.create(blob, this)
+        val mediaLink = service.get(bucketName, fileName).mediaLink
+        return mediaLink
     }
 }

@@ -1,5 +1,5 @@
 package storage
 
 interface CloudStorageService {
-    suspend fun uploadFile(fileName: String, fileBytes: ByteArray): String
+    fun ByteArray.uploadFile(filePath: String): String
 }

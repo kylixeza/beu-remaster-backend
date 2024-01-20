@@ -7,6 +7,7 @@ fun Application.configureInjection() {
         modules(
             databaseModule,
             tokenModule,
+            storageModule,
             middlewareModule,
             authModule,
             recipeModule,
@@ -14,6 +15,7 @@ fun Application.configureInjection() {
             nutritionModule,
             commentModule,
             historyModule,
+            reviewModule,
         )
     }
 }

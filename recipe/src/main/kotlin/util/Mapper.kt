@@ -32,11 +32,16 @@ fun ResultRow.toNutritionResponse() = NutritionResponse(
     amount = "${this[NutritionRecipeTable.amount]} ${this[NutritionTable.unit]}"
 )
 
-fun ResultRow.toReviewResponse() = ReviewResponse(
+fun ResultRow.toReviewResponse(
+    images: List<Pair<String, String>>
+) = ReviewResponse(
     reviewId = this[ReviewTable.reviewId],
     username = this[UserTable.username],
+    avatar = this[UserTable.avatar],
     rating = this[ReviewTable.rating],
     comment = this[ReviewTable.comment].orEmpty(),
+    timeStamp = this[ReviewTable.timeStamp].breakDown(),
+    images = images.filter { it.first == this[ReviewTable.reviewId] }.map { it.second }
 )
 
 fun ResultRow.toRecipeDetailResponse(

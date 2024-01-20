@@ -1,5 +1,6 @@
 package com.kylix
 
+import configureDoubleReceive
 import configureHTTP
 import configureInjection
 import configureRouting
@@ -24,4 +25,5 @@ fun Application.module() {
     configureRouting()
     configureSerialization()
     configureHTTP()
+    configureDoubleReceive()
 }

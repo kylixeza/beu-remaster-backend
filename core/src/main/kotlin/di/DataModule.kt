@@ -11,6 +11,8 @@ import security.hashing.HashingService
 import security.hashing.SHA256HashingService
 import security.token.JWTTokenService
 import security.token.TokenService
+import storage.CloudStorageService
+import storage.GoogleCloudStorageService
 import java.io.FileInputStream
 import java.net.URI
 
@@ -44,13 +46,18 @@ val databaseModule = module {
 
 val storageModule = module {
     single {
-        val credentialsPath = "beu-service.json" // Replace with the actual path to your key file
+        val currentDir = System.getProperty("user.dir")
+        val credentialsPath = "$currentDir/core/src/main/resources/beu.json" // Replace with the actual path to your key file
         val serviceAccountStream = FileInputStream(credentialsPath)
         val credentials = GoogleCredentials.fromStream(serviceAccountStream)
 
         StorageOptions.newBuilder()
             .setCredentials(credentials)
             .build()
+    }
+
+    single<CloudStorageService> {
+        GoogleCloudStorageService(get())
     }
 }
 

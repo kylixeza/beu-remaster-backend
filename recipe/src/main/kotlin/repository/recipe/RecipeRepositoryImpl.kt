@@ -146,9 +146,12 @@ class RecipeRepositoryImpl(
                 NutritionTable.nutritionId eq NutritionRecipeTable.nutritionId
             }.select { NutritionRecipeTable.recipeId eq recipeId }.map { it.toNutritionResponse() }
 
+            val reviewImages = ReviewImageTable.select { ReviewImageTable.reviewId eq ReviewTable.reviewId }
+                .map { it[ReviewTable.reviewId] to it[ReviewImageTable.image] }
+
             val reviews = ReviewTable.join(UserTable, JoinType.INNER)
                 .select { ReviewTable.recipeId.eq(recipeId) }
-                .mapNotNull { it.toReviewResponse() }
+                .mapNotNull { it.toReviewResponse(reviewImages) }
 
             val commentsCount = CommentTable.join(UserTable, JoinType.INNER)
                 .select { CommentTable.recipeId.eq(recipeId) }.map { it[CommentTable.commentId] }.size

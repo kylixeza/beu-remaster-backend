@@ -12,24 +12,20 @@ repositories {
 
 dependencies {
     implementation(Libs.Ktor.core)
-    implementation(Libs.Ktor.auth)
-    implementation(Libs.Ktor.gson)
-    implementation(Libs.Ktor.jwt)
-    implementation(Libs.Database.hikari)
-    implementation(Libs.Database.postgresql)
     implementation(Libs.Exposed.core)
-    implementation(Libs.Exposed.jdbc)
-    implementation(Libs.Exposed.dateTime)
-    implementation(Libs.Koin.koin)
-    implementation(Libs.Util.commonsCodec)
     implementation(Libs.Util.jnanoid)
+    implementation(Libs.Util.dateTime)
     implementation(Libs.GoogleCloud.storage)
+
+    implementation(Libs.Koin.koin)
+
+    api(project(Modules.core))
+    api(project(Modules.middleware))
 }
 
 tasks.test {
     useJUnitPlatform()
 }
-
 kotlin {
     jvmToolchain(11)
 }

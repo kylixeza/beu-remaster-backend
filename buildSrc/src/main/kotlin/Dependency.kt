@@ -22,6 +22,7 @@ object Modules {
     const val recipe = ":recipe"
     const val comment = ":comment"
     const val history = ":history"
+    const val review = ":review"
 }
 
 object Version {
@@ -49,6 +50,7 @@ object Libs {
         const val resources = "io.ktor:ktor-server-resources"
         const val cors = "io.ktor:ktor-server-cors-jvm"
         const val netty = "io.ktor:ktor-server-netty-jvm"
+        const val doubleReceive = "io.ktor:ktor-server-double-receive-jvm"
 
         const val logback = "ch.qos.logback:logback-classic:$logbackVersion"
 
