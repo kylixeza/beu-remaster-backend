@@ -30,6 +30,7 @@ dependencies {
     implementation(project(Modules.history))
     implementation(project(Modules.review))
     implementation(project(Modules.favorite))
+    implementation(project(Modules.profile))
     implementation(project(Modules.middleware))
 }
 

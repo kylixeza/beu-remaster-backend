@@ -16,6 +16,7 @@ fun Application.configureRouting() {
     val historyRoute by inject<HistoryRoute>()
     val reviewRoute by inject<ReviewRoute>()
     val favoriteRoute by inject<FavoriteRoute>()
+    val profileRoute by inject<ProfileRoute>()
 
     routing {
         get("/") {
@@ -33,5 +34,6 @@ fun Application.configureRouting() {
         ) }
 
         favoriteRoute.apply { favorites() }
+        profileRoute.apply { profile() }
     }
 }

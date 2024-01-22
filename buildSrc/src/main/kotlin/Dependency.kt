@@ -24,6 +24,7 @@ object Modules {
     const val history = ":history"
     const val favorite = ":favorite"
     const val review = ":review"
+    const val profile = ":profile"
 }
 
 object Version {
