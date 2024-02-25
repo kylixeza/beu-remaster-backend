@@ -6,11 +6,9 @@ import base.buildSuccessResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
-import model.recipe.BaseHomeRecipeResponse
 import model.recipe.HomeRecipeResponse
 import model.recipe.RecipeRequest
 import repository.recipe.RecipeRepository
-import util.PreferConsumeAt
 import util.getPreferConsumeAt
 
 class RecipeControllerImpl(
@@ -45,31 +43,28 @@ class RecipeControllerImpl(
 
         val preferredTranslate = getPreferConsumeAt().translate
 
-        val preferredBaseHomeResponse = BaseHomeRecipeResponse(
+        val preferredBaseHomeResponse = HomeRecipeResponse(
             title = "Masak Untuk $preferredTranslate?",
             subtitle = "Cek rekomendasi berikut!",
             recipes = preferredRecipes
         )
 
-        val healthyBaseHomeResponse = BaseHomeRecipeResponse(
+        val healthyBaseHomeResponse = HomeRecipeResponse(
             title = "Pilihan Hidup Sehat",
             subtitle = null,
             recipes = healthyRecipes
         )
 
-        val bestBaseHomeResponse = BaseHomeRecipeResponse(
+        val bestBaseHomeResponse = HomeRecipeResponse(
             title = "Makanan Terbaik Kami",
             subtitle = "Menu masakan dengan ulasan terbaik!",
             recipes = bestRecipes
         )
 
-        val homeRecipeResponse = HomeRecipeResponse(
-            preferredRecipe = preferredBaseHomeResponse,
-            healthyRecipe = healthyBaseHomeResponse,
-            bestRecipe = bestBaseHomeResponse
-        )
+        val combined = listOf(preferredBaseHomeResponse, healthyBaseHomeResponse, bestBaseHomeResponse)
 
-        buildSuccessResponse { homeRecipeResponse }
+        buildSuccessListResponse { combined }
+
     }
 
     override suspend fun ApplicationCall.getRecipesByCategory(categoryId: String) {
