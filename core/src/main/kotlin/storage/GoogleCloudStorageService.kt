@@ -11,11 +11,7 @@ class GoogleCloudStorageService(
     override fun ByteArray.uploadFile(filePath: String): String {
         val service = storage.service
         val fileName = "$filePath${NanoIdUtils.randomNanoId()}"
-        val bucketName = if (System.getenv("ENV") == "DEV") {
-            "beu-dev"
-        } else {
-            "beu-prod"
-        }
+        val bucketName = System.getenv("BUCKET_NAME")
         val blob = BlobInfo.newBuilder(bucketName, fileName)
             .setContentType(ContentType.Image.JPEG.toString())
             .build()
