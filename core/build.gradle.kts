@@ -24,6 +24,8 @@ dependencies {
     implementation(Libs.Util.commonsCodec)
     implementation(Libs.Util.jnanoid)
     implementation(Libs.GoogleCloud.storage)
+
+    implementation(project(Modules.common))
 }
 
 tasks.test {

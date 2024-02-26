@@ -6,7 +6,6 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import security.token.TokenService
-import java.util.Date
 
 class Middleware(
     private val tokenService: TokenService

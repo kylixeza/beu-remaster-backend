@@ -13,11 +13,7 @@ repositories {
 dependencies {
     implementation(Libs.Ktor.core)
     implementation(Libs.Ktor.gson)
-    implementation(Libs.Koin.koin)
-    implementation(Libs.Exposed.core)
-
-    api(project(Modules.core))
-    api(project(Modules.middleware))
+    implementation(Libs.Util.dateTime)
 }
 
 tasks.test {

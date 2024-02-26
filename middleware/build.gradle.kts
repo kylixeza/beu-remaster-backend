@@ -15,7 +15,9 @@ dependencies {
     implementation(Libs.Ktor.auth)
     implementation(Libs.Ktor.jwt)
     implementation(Libs.Koin.koin)
-    implementation(project(":core"))
+
+    api(project(Modules.common))
+    api(project(Modules.core))
 }
 
 tasks.test {

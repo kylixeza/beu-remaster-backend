@@ -10,5 +10,5 @@ data class CommentResponse(
     val comment: String,
     val time: String,
 
-    val replies: List<ReplyCommentResponse>,
+    val replies: List<model.comment.ReplyCommentResponse>,
 )

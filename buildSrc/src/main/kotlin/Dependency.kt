@@ -16,6 +16,7 @@ object App {
 
 object Modules {
     const val core = ":core"
+    const val common = ":common"
     const val plugins = ":plugins"
     const val middleware = ":middleware"
     const val auth = ":auth"
