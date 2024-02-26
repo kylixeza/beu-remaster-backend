@@ -1,3 +1,4 @@
+apply(from = file("projectDependencyGraph.gradle"))
 plugins {
     kotlin("jvm") version Version.kotlinVersion
     id("io.ktor.plugin") version Version.ktorVersion
