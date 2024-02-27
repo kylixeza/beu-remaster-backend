@@ -4,7 +4,6 @@ import base.buildErrorResponse
 import base.buildSuccessResponse
 import io.ktor.server.application.*
 import io.ktor.server.request.*
-import io.ktor.server.routing.*
 import model.auth.LoginRequest
 import model.auth.RegisterRequest
 import model.auth.TokenResponse

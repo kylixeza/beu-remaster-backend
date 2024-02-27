@@ -2,10 +2,7 @@ package route
 
 import controller.AuthController
 import io.ktor.server.application.*
-import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import model.auth.LoginRequest
-import model.auth.RegisterRequest
 
 class AuthRoute(
     private val controller: AuthController,
