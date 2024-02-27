@@ -22,7 +22,7 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
-        authRoute.apply { initRoutes() }
+        authRoute.apply { auth() }
         categoryRoute.apply { categories() }
         nutritionRoute.apply { nutrition() }
         recipeRoute.apply { recipes(

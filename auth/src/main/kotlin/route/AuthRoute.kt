@@ -32,7 +32,7 @@ class AuthRoute(
         }
     }
 
-    fun Route.initRoutes() {
+    fun Route.auth() {
         register()
         login()
         logout()
