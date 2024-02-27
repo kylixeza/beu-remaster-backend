@@ -13,13 +13,7 @@ class CategoryControllerImpl(
     private val repository: CategoryRepository,
 ): CategoryController {
     override suspend fun ApplicationCall.insertCategory() {
-        val body = try {
-            receive<List<CategoryRequest>>()
-        } catch (e: Exception) {
-            buildErrorResponse(e)
-            return
-        }
-
+        val body = receive<List<CategoryRequest>>()
         body.forEach {
             if (it.name.isBlank()) {
                 buildErrorResponse(HttpStatusCode.BadRequest, "Nama kategori tidak boleh kosong")
@@ -30,13 +24,7 @@ class CategoryControllerImpl(
     }
 
     override suspend fun ApplicationCall.insertCategoryRecipe() {
-        val body = try {
-            receive<CategoryRecipeRequest>()
-        } catch (e: Exception) {
-            buildErrorResponse(e)
-            return
-        }
-
+        val body = receive<CategoryRecipeRequest>()
         buildSuccessResponse("Kategori untuk resep berhasil ditambahkan") { repository.insertCategoryRecipe(body) }
     }
 

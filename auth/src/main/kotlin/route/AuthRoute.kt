@@ -13,22 +13,19 @@ class AuthRoute(
 
     private fun Route.register() {
         post("/register") {
-            val body = call.receive<RegisterRequest>()
-            controller.apply { call.register(body) }
+            controller.apply { call.register() }
         }
     }
 
     private fun Route.login() {
         post("/login") {
-            val body = call.receive<LoginRequest>()
-            controller.apply { call.login(body) }
+            controller.apply { call.login() }
         }
     }
 
     private fun Route.logout() {
         post("/logout") {
-            val token = call.request.header("Authorization")?.substring("Bearer ".length).orEmpty()
-            controller.apply { call.logout(token) }
+            controller.apply { call.logout() }
         }
     }
 

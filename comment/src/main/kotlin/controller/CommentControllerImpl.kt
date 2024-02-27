@@ -12,13 +12,7 @@ class CommentControllerImpl(
     private val repository: CommentRepository
 ): CommentController {
     override suspend fun ApplicationCall.insertComment(recipeId: String, uid: String) {
-        val body = try {
-            receive<CommentRequest>()
-        } catch (e: Exception) {
-            buildErrorResponse(e)
-            return
-        }
-
+        val body = receive<CommentRequest>()
         buildSuccessResponse("Komentar berhasil ditambahkan") { repository.insertComment(body, recipeId, uid) }
     }
 

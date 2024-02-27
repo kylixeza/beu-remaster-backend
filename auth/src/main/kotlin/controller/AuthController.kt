@@ -8,7 +8,7 @@ import model.auth.TokenResponse
 
 interface AuthController {
 
-    suspend fun ApplicationCall.register(body: RegisterRequest)
-    suspend fun ApplicationCall.login(body: LoginRequest)
-    suspend fun ApplicationCall.logout(token: String)
+    suspend fun ApplicationCall.register()
+    suspend fun ApplicationCall.login()
+    suspend fun ApplicationCall.logout()
 }

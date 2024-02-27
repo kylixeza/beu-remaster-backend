@@ -3,6 +3,7 @@ package controller
 import base.buildErrorResponse
 import base.buildSuccessResponse
 import io.ktor.server.application.*
+import io.ktor.server.request.*
 import io.ktor.server.routing.*
 import model.auth.LoginRequest
 import model.auth.RegisterRequest
@@ -19,7 +20,8 @@ class AuthControllerImpl(
     private val tokenService: TokenService,
     private val hashService: HashingService
 ): AuthController {
-    override suspend fun ApplicationCall.register(body: RegisterRequest) {
+    override suspend fun ApplicationCall.register() {
+        val body = receive<RegisterRequest>()
         val isEmailExist = authRepository.isEmailExist(body.email)
         val isPhoneNumberExist = authRepository.isPhoneNumberExist(body.phoneNumber)
         val isUsernameExist = authRepository.isUsernameExist(body.username)
@@ -45,7 +47,8 @@ class AuthControllerImpl(
         buildSuccessResponse { TokenResponse(token) }
     }
 
-    override suspend fun ApplicationCall.login(body: LoginRequest) {
+    override suspend fun ApplicationCall.login() {
+        val body = receive<LoginRequest>()
         val user = authRepository.getUserByEmail(body.email)
         if (user == null) {
             buildErrorResponse(message = "Pengguna tidak ditemukan, silahkan daftar terlebih dahulu")
@@ -62,7 +65,8 @@ class AuthControllerImpl(
         buildSuccessResponse { TokenResponse(token) }
     }
 
-    override suspend fun ApplicationCall.logout(token: String) {
+    override suspend fun ApplicationCall.logout() {
+        val token = request.header("Authorization")?.substring("Bearer ".length).orEmpty()
         tokenService.insertToBlacklist(token)
         buildSuccessResponse { "Berhasil keluar" }
     }
