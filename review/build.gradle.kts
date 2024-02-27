@@ -19,7 +19,6 @@ dependencies {
 
     implementation(Libs.Koin.koin)
 
-    api(project(Modules.core))
     api(project(Modules.middleware))
 }
 

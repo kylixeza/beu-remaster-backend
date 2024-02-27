@@ -23,7 +23,6 @@ dependencies {
     implementation(Libs.Koin.koinKtor)
     implementation(Libs.Exposed.core)
 
-    implementation(project(Modules.core))
     implementation(project(Modules.auth))
     implementation(project(Modules.recipe))
     implementation(project(Modules.comment))
@@ -31,7 +30,6 @@ dependencies {
     implementation(project(Modules.review))
     implementation(project(Modules.favorite))
     implementation(project(Modules.profile))
-    implementation(project(Modules.middleware))
 }
 
 tasks.test {
