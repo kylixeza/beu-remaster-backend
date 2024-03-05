@@ -6,7 +6,7 @@ import io.ktor.server.plugins.*
 import io.ktor.server.response.*
 
 suspend inline fun <reified T> ApplicationCall.buildSuccessResponse(
-    messagePlaceholder: String? = null,
+    messagePlaceholder: String = "No specific message provided, but the request was successful",
     noinline action: suspend () -> T
 ) {
     try {
