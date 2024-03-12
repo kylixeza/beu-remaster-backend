@@ -1,6 +1,7 @@
 .gradle
 build/
 gradle/
+core/src/main/resources/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
