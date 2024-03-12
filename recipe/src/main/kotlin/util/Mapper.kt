@@ -10,6 +10,7 @@ import org.jetbrains.exposed.sql.Count
 import org.jetbrains.exposed.sql.ResultRow
 import tables.*
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 fun ResultRow.toCategoryResponse() = CategoryResponse(
     categoryId = this[CategoryTable.categoryId],
@@ -61,7 +62,7 @@ fun ResultRow.toRecipeDetailResponse(
     tools = tools,
     steps = steps,
     averageRating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
-    averageCount = this[Count(ReviewTable.reviewId)],
+    averageCount = this[Count(ReviewTable.rating)],
     description = this[RecipeTable.description],
     estimateTime = "${this[RecipeTable.startEstimation]} - ${this[RecipeTable.endEstimation]} ${this[RecipeTable.estimationUnit]}",
     commentsCount = commentsCount,

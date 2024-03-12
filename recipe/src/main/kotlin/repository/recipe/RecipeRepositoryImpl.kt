@@ -17,7 +17,7 @@ class RecipeRepositoryImpl(
         val baseColumns = listOf(
             RecipeTable.recipeId, RecipeTable.name, RecipeTable.difficulty, RecipeTable.image,
             Count(FavoriteTable.recipeId), Avg(ReviewTable.rating, 1), RecipeTable.endEstimation,
-            CategoryRecipeTable.categoryId, ReviewTable.uid, ReviewTable.reviewId
+            CategoryRecipeTable.categoryId,
         )
         return RecipeTable.join(FavoriteTable, JoinType.LEFT) {
             RecipeTable.recipeId eq FavoriteTable.recipeId
@@ -30,7 +30,10 @@ class RecipeRepositoryImpl(
         )
     }
 
-    private fun Query.getBaseGroupBy() = groupBy(RecipeTable.recipeId, CategoryRecipeTable.categoryId, ReviewTable.reviewId)
+    private fun Query.getBaseGroupBy() = groupBy(RecipeTable.recipeId, CategoryRecipeTable.categoryId)
+
+    private fun getRatings(recipeId: String) = ReviewTable.select { ReviewTable.recipeId.eq(recipeId) }
+        .map { it[ReviewTable.rating] }
 
     override suspend fun insertRecipe(request: RecipeRequest) {
         db.dbQuery {
@@ -112,6 +115,7 @@ class RecipeRepositoryImpl(
                 .getBaseGroupBy()
                 .map { it.toRecipeListResponse() }
                 .filter { it.recipeId in recipeIdByCategoryName }
+                .distinctBy { it.recipeId }
         }
     }
 
@@ -162,8 +166,8 @@ class RecipeRepositoryImpl(
 
             getBaseQuery(
                 RecipeTable.video, RecipeTable.description, RecipeTable.startEstimation,
-                RecipeTable.endEstimation, RecipeTable.estimationUnit, Count(ReviewTable.reviewId)
-            ).selectAll().getBaseGroupBy()
+                RecipeTable.endEstimation, RecipeTable.estimationUnit, Count(ReviewTable.rating)
+            ).select { RecipeTable.recipeId eq recipeId }.getBaseGroupBy()
                 .map { it.toRecipeDetailResponse(isFavorite, ingredients, tools, steps, nutrition, reviews, commentsCount) }
                 .first()
         }
