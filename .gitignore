@@ -1,7 +1,7 @@
 .gradle
 build/
 gradle/
-core/src/main/resources/
+core/src/main/resources/beu.json
 !**/src/main/**/build/
 !**/src/test/**/build/
 
