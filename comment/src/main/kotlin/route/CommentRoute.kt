@@ -22,9 +22,9 @@ class CommentRoute(
             }
 
             middleware.apply {
-                authenticate(HTTPVerb.GET) { _, call ->
+                authenticate(HTTPVerb.GET) { uid, call ->
                     val recipeId = call.parameters["recipeId"].orEmpty()
-                    repository.apply { call.getComments(recipeId) }
+                    repository.apply { call.getComments(uid, recipeId) }
                 }
             }
         }

@@ -15,7 +15,7 @@ class CommentControllerImpl(
         buildSuccessResponse("Komentar berhasil ditambahkan") { repository.insertComment(body, recipeId, uid) }
     }
 
-    override suspend fun ApplicationCall.getComments(recipeId: String) {
-        buildSuccessListResponse { repository.getComments(recipeId) }
+    override suspend fun ApplicationCall.getComments(uid: String, recipeId: String) {
+        buildSuccessListResponse { repository.getComments(uid, recipeId) }
     }
 }

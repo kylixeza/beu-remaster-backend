@@ -5,10 +5,7 @@ import database.DatabaseFactory
 import model.comment.CommentRequest
 import model.comment.CommentResponse
 import model.comment.ReplyCommentResponse
-import org.jetbrains.exposed.sql.JoinType
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import tables.CommentTable
 import tables.UserTable
 import util.createTimeStamp
@@ -35,7 +32,7 @@ class CommentRepositoryImpl(
         }
     }
 
-    override suspend fun getComments(recipeId: String): List<CommentResponse> = db.dbQuery {
+    override suspend fun getComments(uid: String, recipeId: String): List<CommentResponse> = db.dbQuery {
 
         val replies = CommentTable.join(UserTable, JoinType.INNER) {
             CommentTable.uid eq UserTable.uid
@@ -49,19 +46,28 @@ class CommentRepositoryImpl(
                 replyCommentId = it[CommentTable.replyCommentId].orEmpty()
             ) }
 
-        CommentTable.join(UserTable, JoinType.INNER) {
+        fun baseQuery(selectStatement: FieldSet.() -> Query) = CommentTable.join(UserTable, JoinType.INNER) {
             CommentTable.uid eq UserTable.uid
-        }.select { CommentTable.replyCommentId.isNull() and (CommentTable.recipeId eq recipeId) }
-            .map {
-                CommentResponse(
-                    commentId = it[CommentTable.commentId],
-                    avatar = it[UserTable.avatar],
-                    username = it[UserTable.username],
-                    comment = it[CommentTable.comment],
-                    time = it[CommentTable.timeStamp].durationSince(),
-                    replies = replies.filter { reply -> reply.replyCommentId == it[CommentTable.commentId] }
-                )
-            }
+        }.selectStatement().map {
+            CommentResponse(
+                commentId = it[CommentTable.commentId],
+                avatar = it[UserTable.avatar],
+                username = it[UserTable.username],
+                comment = it[CommentTable.comment],
+                time = it[CommentTable.timeStamp].durationSince(),
+                replies = replies.filter { reply -> reply.replyCommentId == it[CommentTable.commentId] }
+            )
+        }
+
+        val myComments = baseQuery {
+            select { (CommentTable.replyCommentId.isNull()) and (CommentTable.recipeId eq recipeId) and (CommentTable.uid eq uid) }
+        }
+
+        val otherComments = baseQuery {
+            select { (CommentTable.replyCommentId.isNull()) and (CommentTable.recipeId eq recipeId) and (CommentTable.uid neq uid) }
+        }
+
+        myComments + otherComments
     }
 
 }
