@@ -1,5 +1,7 @@
 package util
 
+import database.favoritesCount
+import database.isFavorite
 import model.category.CategoryResponse
 import model.nutrition.NutritionResponse
 import model.recipe.RecipeDetailResponse
@@ -17,12 +19,15 @@ fun ResultRow.toCategoryResponse() = CategoryResponse(
     name = this[CategoryTable.name]
 )
 
-fun ResultRow.toRecipeListResponse() = RecipeListResponse(
+fun ResultRow.toRecipeListResponse(
+    uid: String
+) = RecipeListResponse(
     recipeId = this[RecipeTable.recipeId],
     name = this[RecipeTable.name],
     difficulty = this[RecipeTable.difficulty].difficulty,
     image = this[RecipeTable.image],
-    favorites = this[Count(FavoriteTable.recipeId)],
+    isFavorite = this.isFavorite(uid),
+    favorites = favoritesCount(this[RecipeTable.recipeId]),
     rating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
     estimationTime = this[RecipeTable.endEstimation]
 )

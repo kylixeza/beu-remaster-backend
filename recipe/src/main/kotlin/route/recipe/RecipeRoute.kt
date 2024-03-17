@@ -23,14 +23,15 @@ class RecipeRoute(
             }
 
             middleware.apply {
-                authenticate(HTTPVerb.GET, "/home") { _, call ->
-                    recipeController.apply { call.getHomeRecipes() }
+                authenticate(HTTPVerb.GET, "/home") { uid, call ->
+                    recipeController.apply { call.getHomeRecipes(uid) }
                 }
             }
 
             middleware.apply {
-                authenticate(HTTPVerb.GET, "/categories/{categoryId}") { _, call ->
-                    recipeController.apply { call.getRecipesByCategory(call.parameters["categoryId"]!!) }
+                authenticate(HTTPVerb.GET, "/categories/{categoryId}") { uid, call ->
+                    val categoryId = call.parameters["categoryId"].orEmpty()
+                    recipeController.apply { call.getRecipesByCategory(uid, categoryId) }
                 }
             }
 

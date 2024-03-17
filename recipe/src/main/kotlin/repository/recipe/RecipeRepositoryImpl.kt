@@ -2,6 +2,9 @@ package repository.recipe
 
 import com.aventrix.jnanoid.jnanoid.NanoIdUtils
 import database.DatabaseFactory
+import database.getBaseGroupBy
+import database.getBaseQuery
+import database.isFavorite
 import model.recipe.RecipeDetailResponse
 import model.recipe.RecipeListResponse
 import model.recipe.RecipeRequest
@@ -12,28 +15,6 @@ import util.*
 class RecipeRepositoryImpl(
     private val db: DatabaseFactory
 ): RecipeRepository {
-
-    private fun getBaseQuery(vararg additionalColumn: Expression<*> = emptyArray()): FieldSet {
-        val baseColumns = listOf(
-            RecipeTable.recipeId, RecipeTable.name, RecipeTable.difficulty, RecipeTable.image,
-            Count(FavoriteTable.recipeId), Avg(ReviewTable.rating, 1), RecipeTable.endEstimation,
-            CategoryRecipeTable.categoryId,
-        )
-        return RecipeTable.join(FavoriteTable, JoinType.LEFT) {
-            RecipeTable.recipeId eq FavoriteTable.recipeId
-        }.join(ReviewTable, JoinType.LEFT) {
-            RecipeTable.recipeId eq ReviewTable.recipeId
-        }.join(CategoryRecipeTable, JoinType.INNER) {
-            RecipeTable.recipeId eq CategoryRecipeTable.recipeId
-        }.slice(
-            columns = if (additionalColumn.isNotEmpty()) baseColumns + additionalColumn else baseColumns
-        )
-    }
-
-    private fun Query.getBaseGroupBy() = groupBy(RecipeTable.recipeId, CategoryRecipeTable.categoryId)
-
-    private fun getRatings(recipeId: String) = ReviewTable.select { ReviewTable.recipeId.eq(recipeId) }
-        .map { it[ReviewTable.rating] }
 
     override suspend fun insertRecipe(request: RecipeRequest) {
         db.dbQuery {
@@ -98,14 +79,14 @@ class RecipeRepositoryImpl(
         }
     }
 
-    override suspend fun getPreferredRecipesByConsumeTime(): List<RecipeListResponse> = db.dbQuery {
+    override suspend fun getPreferredRecipesByConsumeTime(uid: String): List<RecipeListResponse> = db.dbQuery {
         val preferAt = getPreferConsumeAt()
         getBaseQuery().select {
             RecipeTable.preferConsumeAt.eq(preferAt)
-        }.getBaseGroupBy().map { it.toRecipeListResponse() }
+        }.getBaseGroupBy().map { it.toRecipeListResponse(uid) }
     }
 
-    override suspend fun getHealthyRecipes(): List<RecipeListResponse> {
+    override suspend fun getHealthyRecipes(uid: String): List<RecipeListResponse> {
         val categoryName = "Sayur"
         return db.dbQuery {
             val recipeIdByCategoryName = CategoryTable.join(CategoryRecipeTable, JoinType.INNER) {
@@ -113,27 +94,27 @@ class RecipeRepositoryImpl(
             }.select { CategoryTable.name eq categoryName }.map { it[CategoryRecipeTable.categoryId] }
             getBaseQuery().selectAll()
                 .getBaseGroupBy()
-                .map { it.toRecipeListResponse() }
+                .map { it.toRecipeListResponse(uid) }
                 .filter { it.recipeId in recipeIdByCategoryName }
                 .distinctBy { it.recipeId }
         }
     }
 
-    override suspend fun getBestRecipes(): List<RecipeListResponse> {
+    override suspend fun getBestRecipes(uid: String): List<RecipeListResponse> {
         return db.dbQuery {
             getBaseQuery().selectAll()
                 .getBaseGroupBy()
                 .orderBy(Avg(ReviewTable.rating, 1), SortOrder.DESC)
-                .map { it.toRecipeListResponse() }
+                .map { it.toRecipeListResponse(uid) }
         }
     }
 
-    override suspend fun getRecipesByCategory(categoryId: String): List<RecipeListResponse> {
+    override suspend fun getRecipesByCategory(uid: String, categoryId: String): List<RecipeListResponse> {
         return db.dbQuery {
             getBaseQuery()
                 .select { CategoryRecipeTable.categoryId eq categoryId }
                 .getBaseGroupBy()
-                .map { it.toRecipeListResponse() }
+                .map { it.toRecipeListResponse(uid) }
         }
     }
 

@@ -36,10 +36,10 @@ class RecipeControllerImpl(
         }
     }
 
-    override suspend fun ApplicationCall.getHomeRecipes() {
-        val preferredRecipes  = repository.getPreferredRecipesByConsumeTime()
-        val healthyRecipes = repository.getHealthyRecipes()
-        val bestRecipes = repository.getBestRecipes()
+    override suspend fun ApplicationCall.getHomeRecipes(uid: String) {
+        val preferredRecipes  = repository.getPreferredRecipesByConsumeTime(uid)
+        val healthyRecipes = repository.getHealthyRecipes(uid)
+        val bestRecipes = repository.getBestRecipes(uid)
 
         val preferredTranslate = getPreferConsumeAt().translate
 
@@ -67,8 +67,8 @@ class RecipeControllerImpl(
 
     }
 
-    override suspend fun ApplicationCall.getRecipesByCategory(categoryId: String) {
-        buildSuccessListResponse { repository.getRecipesByCategory(categoryId) }
+    override suspend fun ApplicationCall.getRecipesByCategory(uid: String, categoryId: String) {
+        buildSuccessListResponse { repository.getRecipesByCategory(uid, categoryId) }
     }
 
     override suspend fun ApplicationCall.getDetailRecipe(uid: String, recipeId: String) {

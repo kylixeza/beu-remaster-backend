@@ -1,6 +1,8 @@
 package repository
 
 import database.DatabaseFactory
+import database.getBaseQuery
+import database.isFavorite
 import model.recipe.RecipeListResponse
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -13,23 +15,6 @@ import java.math.BigDecimal
 class FavoriteRepositoryImpl(
     private val db: DatabaseFactory
 ): FavoriteRepository {
-
-    private fun getBaseQuery(vararg additionalColumn: Expression<*> = emptyArray()): FieldSet {
-        val baseColumns = listOf(
-            RecipeTable.recipeId, RecipeTable.name, RecipeTable.difficulty, RecipeTable.image,
-            Count(FavoriteTable.recipeId), Avg(ReviewTable.rating, 1), RecipeTable.endEstimation,
-            CategoryRecipeTable.categoryId, ReviewTable.uid, ReviewTable.reviewId
-        )
-        return RecipeTable.join(FavoriteTable, JoinType.LEFT) {
-            RecipeTable.recipeId eq FavoriteTable.recipeId
-        }.join(ReviewTable, JoinType.LEFT) {
-            RecipeTable.recipeId eq ReviewTable.recipeId
-        }.join(CategoryRecipeTable, JoinType.INNER) {
-            RecipeTable.recipeId eq CategoryRecipeTable.recipeId
-        }.slice(
-            columns = if (additionalColumn.isNotEmpty()) baseColumns + additionalColumn else baseColumns
-        )
-    }
 
     override suspend fun insertFavorite(uid: String, recipeId: String) {
         db.dbQuery {
@@ -63,6 +48,7 @@ class FavoriteRepositoryImpl(
         name = this[RecipeTable.name],
         difficulty = this[RecipeTable.difficulty].difficulty,
         image = this[RecipeTable.image],
+        isFavorite = true,
         favorites = this[Count(FavoriteTable.recipeId)],
         rating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
         estimationTime = this[RecipeTable.endEstimation]
