@@ -10,11 +10,12 @@ fun getPreferConsumeAt(): PreferConsumeAt {
     val now = Clock.System.now()
     //TODO: Make sure to change the timezone to the user's timezone using global ip address to detect the timezone
     val currentTime = now.toLocalDateTime(TimeZone.of("Asia/Jakarta")).time
-    return when (currentTime) {
-        in LocalTime(5, 0)..LocalTime(10, 0) -> PreferConsumeAt.BREAKFAST
-        in LocalTime(10, 0)..LocalTime(14, 0) -> PreferConsumeAt.LUNCH
-        in LocalTime(14, 0)..LocalTime(19, 0) -> PreferConsumeAt.SNACK
-        in LocalTime(19, 0)..LocalTime(5, 0) -> PreferConsumeAt.DINNER
+    return when (currentTime.hour) {
+        in 5..9 -> PreferConsumeAt.BREAKFAST
+        in 10..14 -> PreferConsumeAt.LUNCH
+        in 15..17 -> PreferConsumeAt.SNACK
+        in 18..24 -> PreferConsumeAt.DINNER
+        in 0..4 -> PreferConsumeAt.DINNER
         else -> PreferConsumeAt.SNACK
     }
 }
