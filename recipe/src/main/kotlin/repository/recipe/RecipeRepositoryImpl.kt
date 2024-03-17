@@ -4,13 +4,13 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils
 import database.DatabaseFactory
 import database.getBaseGroupBy
 import database.getBaseQuery
-import database.isFavorite
 import model.recipe.RecipeDetailResponse
 import model.recipe.RecipeListResponse
 import model.recipe.RecipeRequest
 import org.jetbrains.exposed.sql.*
 import tables.*
 import util.*
+import java.util.*
 
 class RecipeRepositoryImpl(
     private val db: DatabaseFactory
@@ -76,6 +76,15 @@ class RecipeRepositoryImpl(
                     }
                 }
             }
+        }
+    }
+
+    override suspend fun searchRecipes(uid: String, query: String): List<RecipeListResponse> {
+        return db.dbQuery {
+            getBaseQuery().select { RecipeTable.name
+                .lowerCase()
+                .like("%$query%".lowercase(Locale.getDefault())) }
+                .getBaseGroupBy().map { it.toRecipeListResponse(uid) }
         }
     }
 

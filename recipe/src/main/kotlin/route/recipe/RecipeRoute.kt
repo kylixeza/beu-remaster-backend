@@ -23,6 +23,13 @@ class RecipeRoute(
             }
 
             middleware.apply {
+                authenticate(HTTPVerb.GET) { uid, call ->
+                    val query = call.request.queryParameters["query"].orEmpty()
+                    recipeController.apply { call.searchRecipes(uid, query) }
+                }
+            }
+
+            middleware.apply {
                 authenticate(HTTPVerb.GET, "/home") { uid, call ->
                     recipeController.apply { call.getHomeRecipes(uid) }
                 }

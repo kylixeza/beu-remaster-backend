@@ -6,6 +6,7 @@ import model.recipe.RecipeRequest
 
 interface RecipeRepository {
     suspend fun insertRecipe(request: RecipeRequest)
+    suspend fun searchRecipes(uid: String, query: String): List<RecipeListResponse>
     suspend fun getPreferredRecipesByConsumeTime(uid: String): List<RecipeListResponse>
     suspend fun getHealthyRecipes(uid: String): List<RecipeListResponse>
     suspend fun getBestRecipes(uid: String): List<RecipeListResponse>

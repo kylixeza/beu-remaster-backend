@@ -36,6 +36,10 @@ class RecipeControllerImpl(
         }
     }
 
+    override suspend fun ApplicationCall.searchRecipes(uid: String, query: String) {
+        buildSuccessListResponse { repository.searchRecipes(uid, query) }
+    }
+
     override suspend fun ApplicationCall.getHomeRecipes(uid: String) {
         val preferredRecipes  = repository.getPreferredRecipesByConsumeTime(uid)
         val healthyRecipes = repository.getHealthyRecipes(uid)
