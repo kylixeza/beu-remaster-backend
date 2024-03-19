@@ -9,11 +9,21 @@ import org.jetbrains.exposed.sql.update
 import security.hashing.SaltedHash
 import storage.CloudStorageService
 import tables.UserTable
+import util.getPreferGreetAt
 
 class ProfileRepositoryImpl(
     private val db: DatabaseFactory,
     private val cloudStorageService: CloudStorageService
 ): ProfileRepository {
+    override suspend fun greetUser(uid: String): String {
+        val greeting = getPreferGreetAt()
+        return db.dbQuery {
+            UserTable.select {
+                UserTable.uid eq uid
+            }.map { it[UserTable.username] }.first()
+        }.let { "$greeting, $it" }
+    }
+
     override suspend fun getUser(uid: String): UserResponse {
         return db.dbQuery {
             UserTable.select {

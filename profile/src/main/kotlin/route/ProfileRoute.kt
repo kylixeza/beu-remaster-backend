@@ -14,6 +14,12 @@ class ProfileRoute(
         route("/profile") {
 
             middleware.apply {
+                authenticate(HTTPVerb.GET, "/greet") { uid, call ->
+                    controller.apply { call.greetUser(uid) }
+                }
+            }
+
+            middleware.apply {
                 authenticate(HTTPVerb.GET) { uid, call ->
                     controller.apply { call.getUser(uid) }
                 }

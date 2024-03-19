@@ -5,6 +5,7 @@ import model.user.UserResponse
 import security.hashing.SaltedHash
 
 interface ProfileRepository {
+    suspend fun greetUser(uid: String): String
     suspend fun getUser(uid: String): UserResponse
     suspend fun updateUser(uid: String, request: UserRequest, fileByte: ByteArray?): UserResponse
     suspend fun resetPassword(uid: String, saltedHash: SaltedHash)

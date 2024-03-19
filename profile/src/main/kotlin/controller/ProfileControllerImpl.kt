@@ -16,6 +16,10 @@ class ProfileControllerImpl(
     private val repository: ProfileRepository,
     private val hashService: HashingService
 ): ProfileController {
+    override suspend fun ApplicationCall.greetUser(uid: String) {
+        buildSuccessResponse { repository.greetUser(uid) }
+    }
+
     override suspend fun ApplicationCall.getUser(uid: String) {
         buildSuccessResponse { repository.getUser(uid)  }
     }
