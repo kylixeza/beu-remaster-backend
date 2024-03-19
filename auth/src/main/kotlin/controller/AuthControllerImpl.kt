@@ -48,7 +48,17 @@ class AuthControllerImpl(
 
     override suspend fun ApplicationCall.login() {
         val body = receive<LoginRequest>()
-        val user = authRepository.getUserByEmail(body.email)
+
+        val isEmailExist = authRepository.isEmailExist(body.identifier)
+        val isPhoneNumberExist = authRepository.isPhoneNumberExist(body.identifier)
+        val isUsernameExist = authRepository.isUsernameExist(body.identifier)
+
+        if (!isEmailExist && !isPhoneNumberExist && !isUsernameExist) {
+            buildErrorResponse(message = "Pengguna tidak ditemukan, silahkan daftar terlebih dahulu")
+            return
+        }
+
+        val user = authRepository.getUserByIdentifier(body.identifier)
         if (user == null) {
             buildErrorResponse(message = "Pengguna tidak ditemukan, silahkan daftar terlebih dahulu")
             return

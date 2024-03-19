@@ -1,6 +1,6 @@
 package model.auth
 
 data class LoginRequest(
-    val email: String,
+    val identifier: String,
     val password: String
 )

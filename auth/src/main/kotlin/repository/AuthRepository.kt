@@ -1,9 +1,7 @@
 package repository
 
 import model.User
-import model.auth.LoginRequest
 import model.auth.RegisterRequest
-import model.auth.TokenResponse
 import security.hashing.SaltedHash
 
 interface AuthRepository {
@@ -11,5 +9,5 @@ interface AuthRepository {
     suspend fun isPhoneNumberExist(phoneNumber: String): Boolean
     suspend fun isUsernameExist(username: String): Boolean
     suspend fun insertUser(body: RegisterRequest, saltedHash: SaltedHash): String
-    suspend fun getUserByEmail(email: String): User?
+    suspend fun getUserByIdentifier(identifier: String): User?
 }

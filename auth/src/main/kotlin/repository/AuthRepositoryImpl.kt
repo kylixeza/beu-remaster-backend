@@ -4,6 +4,7 @@ import database.DatabaseFactory
 import model.User
 import model.auth.RegisterRequest
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import security.hashing.SaltedHash
 import tables.UserTable
@@ -44,9 +45,9 @@ class AuthRepositoryImpl(
         } get UserTable.uid
     }
 
-    override suspend fun getUserByEmail(email: String): User? = dbFactory.dbQuery {
+    override suspend fun getUserByIdentifier(identifier: String): User? = dbFactory.dbQuery {
         UserTable.select {
-            UserTable.email eq email
+            (UserTable.email eq identifier) or (UserTable.phoneNumber eq identifier) or (UserTable.username eq identifier)
         }.map {
             User(
                 uid = it[UserTable.uid],
