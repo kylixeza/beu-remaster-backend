@@ -81,10 +81,22 @@ class RecipeRepositoryImpl(
 
     override suspend fun searchRecipes(uid: String, query: String): List<RecipeListResponse> {
         return db.dbQuery {
-            getBaseQuery().select { RecipeTable.name
+            val recipesByName = getBaseQuery().select { RecipeTable.name
                 .lowerCase()
                 .like("%$query%".lowercase(Locale.getDefault())) }
                 .getBaseGroupBy().map { it.toRecipeListResponse(uid) }
+
+            val recipeIdsByIngredient = IngredientTable.select { IngredientTable.ingredient
+                .lowerCase()
+                .like("%$query%".lowercase(Locale.getDefault()))
+            }.map { it[IngredientTable.recipeId] }
+
+            val recipesByIngredient = getBaseQuery()
+                .select {
+                    RecipeTable.recipeId inList recipeIdsByIngredient
+                }.getBaseGroupBy().map { it.toRecipeListResponse(uid) }
+
+            (recipesByName + recipesByIngredient).distinctBy { it.recipeId }
         }
     }
 
