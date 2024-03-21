@@ -8,7 +8,7 @@
 ### Google Cloud
 - Login to your google cloud console (register if you don't have one)
 - Create a new project
-- Select Cloud Storage -> Bucket on the left side
+- Select Cloud Storage -> Buckets on the left side
     - <img width="300" alt="Screenshot 2024-03-21 at 11 49 21" src="https://github.com/kylixeza/beu-remaster-backend/assets/58837451/1d01aeca-a92b-4236-ac4d-41c28185d6f2">
 - Create new Bucket
 - Fill the form, you can fill according to your needs (for the access control you can use fine-grained an)
@@ -35,7 +35,10 @@
 | JWT_SECRET | JWT_SECRET | 
 | PORT | 8080 |
 
-# 3. Next Update
+# 3. Next Updates
 - Create help center that integrated with email
 - Integrate with Twilio for the phone verification
 - Integrate with OneSignal to send a notification through the app
+
+# 4. API Documentation
+https://documenter.getpostman.com/view/19816931/2sA35A6QKA
