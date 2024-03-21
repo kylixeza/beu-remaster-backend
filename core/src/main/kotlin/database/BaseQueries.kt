@@ -1,7 +1,6 @@
 package database
 
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import tables.CategoryRecipeTable
 import tables.FavoriteTable
 import tables.RecipeTable

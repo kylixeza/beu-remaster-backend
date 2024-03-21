@@ -1,8 +1,6 @@
 package repository
 
-import database.DatabaseFactory
-import database.getBaseQuery
-import database.isFavorite
+import database.*
 import model.recipe.RecipeListResponse
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -35,24 +33,26 @@ class FavoriteRepositoryImpl(
 
     override suspend fun getFavorites(uid: String): List<RecipeListResponse> {
         return db.dbQuery {
-            getBaseQuery().select {
+            val recipeIds = FavoriteTable.select {
                 FavoriteTable.uid eq uid
+            }.map { it[FavoriteTable.recipeId] }
+
+            getBaseQuery().select {
+                RecipeTable.recipeId inList recipeIds
             }.getBaseGroupBy().map {
-                it.toRecipeListResponse()
+                it.toRecipeListResponse(uid)
             }
         }
     }
 
-    private fun ResultRow.toRecipeListResponse() = RecipeListResponse(
+    private fun ResultRow.toRecipeListResponse(uid: String) = RecipeListResponse(
         recipeId = this[RecipeTable.recipeId],
         name = this[RecipeTable.name],
         difficulty = this[RecipeTable.difficulty].difficulty,
         image = this[RecipeTable.image],
-        isFavorite = true,
-        favorites = this[Count(FavoriteTable.recipeId)],
+        isFavorite = this.isFavorite(uid),
+        favorites = favoritesCount(this[RecipeTable.recipeId]),
         rating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
         estimationTime = this[RecipeTable.endEstimation]
     )
-
-    private fun Query.getBaseGroupBy() = groupBy(RecipeTable.recipeId, CategoryRecipeTable.categoryId, ReviewTable.reviewId)
 }
