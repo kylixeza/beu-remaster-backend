@@ -83,6 +83,6 @@ class ProfileControllerImpl(
         }
 
         val saltedHash = hashService.generateSaltedHash(body.password)
-        buildSuccessResponse { repository.resetPassword(uid, saltedHash) }
+        buildSuccessResponse("Password berhasil diubah") { repository.resetPassword(uid, saltedHash) }
     }
 }

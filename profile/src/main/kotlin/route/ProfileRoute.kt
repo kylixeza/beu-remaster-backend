@@ -32,7 +32,7 @@ class ProfileRoute(
             }
 
             middleware.apply {
-                authenticate(HTTPVerb.POST) { uid, call ->
+                authenticate(HTTPVerb.PUT, "/reset-password") { uid, call ->
                     controller.apply { call.resetPassword(uid) }
                 }
             }
