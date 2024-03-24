@@ -4,13 +4,13 @@ import kotlinx.datetime.*
 
 fun createTimeStamp() = run {
     val now = Clock.System.now()
-   now.toLocalDateTime(TimeZone.currentSystemDefault())
+   now.toLocalDateTime(TimeZone.UTC)
 }
 
 fun LocalDateTime.durationSince(): String = run {
     val now = Clock.System.now()
-    val period = toInstant(TimeZone.currentSystemDefault())
-        .periodUntil(now, TimeZone.currentSystemDefault())
+    val period = toInstant(TimeZone.UTC)
+        .periodUntil(now, TimeZone.UTC)
 
     val usingSecondUnit = period.seconds in 1..59 && period.minutes == 0
     val usingMinuteUnit = period.minutes in 1..59 && period.hours == 0
