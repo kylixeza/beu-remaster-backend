@@ -4,10 +4,7 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils
 import database.DatabaseFactory
 import model.history.HistoryRequest
 import model.history.HistoryResponse
-import org.jetbrains.exposed.sql.JoinType
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import tables.HistoryTable
 import tables.RecipeTable
 import tables.ReviewTable
@@ -40,7 +37,7 @@ class HistoryRepositoryImpl(
                 HistoryTable.recipeId eq RecipeTable.recipeId
             }.select {
                 HistoryTable.uid eq uid
-            }.map {
+            }.orderBy(HistoryTable.timeStamp, SortOrder.DESC).map {
                 val isReviewed = ReviewTable.select {
                     ReviewTable.historyId eq it[HistoryTable.historyId]
                 }.count() > 0
