@@ -17,7 +17,8 @@ fun Application.configureInjection() {
             historyModule,
             reviewModule,
             favoriteModule,
-            profileModule
+            profileModule,
+            staticResourcesModule
         )
     }
 }

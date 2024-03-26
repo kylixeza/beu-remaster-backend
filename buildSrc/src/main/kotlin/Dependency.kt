@@ -26,6 +26,7 @@ object Modules {
     const val favorite = ":favorite"
     const val review = ":review"
     const val profile = ":profile"
+    const val static_resources = ":static_resources"
 }
 
 object Version {
@@ -54,6 +55,7 @@ object Libs {
         const val cors = "io.ktor:ktor-server-cors-jvm"
         const val netty = "io.ktor:ktor-server-netty-jvm"
         const val doubleReceive = "io.ktor:ktor-server-double-receive-jvm"
+        const val freeMarker = "io.ktor:ktor-server-freemarker-jvm"
 
         const val logback = "ch.qos.logback:logback-classic:$logbackVersion"
 
