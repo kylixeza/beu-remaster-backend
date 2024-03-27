@@ -8,6 +8,7 @@ fun Application.configureInjection() {
             databaseModule,
             tokenModule,
             storageModule,
+            emailModule,
             middlewareModule,
             authModule,
             recipeModule,
@@ -18,6 +19,7 @@ fun Application.configureInjection() {
             reviewModule,
             favoriteModule,
             profileModule,
+            helpCenterModule,
             staticResourcesModule
         )
     }

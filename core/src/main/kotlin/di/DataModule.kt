@@ -6,6 +6,8 @@ import com.google.cloud.storage.StorageOptions
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import database.DatabaseFactory
+import email.EmailService
+import email.HelpCenterEmailServiceImpl
 import org.koin.dsl.module
 import security.hashing.HashingService
 import security.hashing.SHA256HashingService
@@ -15,6 +17,7 @@ import storage.CloudStorageService
 import storage.GoogleCloudStorageService
 import java.io.FileInputStream
 import java.net.URI
+import java.util.*
 
 val databaseModule = module {
     single {
@@ -59,6 +62,20 @@ val storageModule = module {
     single<CloudStorageService> {
         GoogleCloudStorageService(get())
     }
+}
+
+val emailModule = module {
+    single {
+        val properties = Properties()
+        properties["mail.smtp.auth"] = "true"
+        properties["mail.smtp.starttls.enable"] = "true"
+        properties["mail.smtp.host"] = "smtp.gmail.com" // Replace with your SMTP host
+        properties["mail.smtp.port"] = "587"
+
+        properties
+    }
+
+    single<EmailService> { HelpCenterEmailServiceImpl(get()) }
 }
 
 val tokenModule = module {

@@ -1,6 +1,7 @@
 import Version.commonsCodecVersion
 import Version.exposedVersion
 import Version.hikariVersion
+import Version.jakartaEmail
 import Version.jnanoidVersion
 import Version.koinVersion
 import Version.kotlinVersion
@@ -26,6 +27,7 @@ object Modules {
     const val favorite = ":favorite"
     const val review = ":review"
     const val profile = ":profile"
+    const val help_center = ":help_center"
     const val static_resources = ":static_resources"
 }
 
@@ -41,6 +43,7 @@ object Version {
     const val commonsCodecVersion = "1.15"
     const val slf4jVersion = "2.0.10"
     const val kotlinxDateTime = "0.5.0"
+    const val jakartaEmail = "2.0.1"
 }
 
 object Libs {
@@ -95,5 +98,9 @@ object Libs {
 
     object GoogleCloud {
         const val storage = "com.google.cloud:google-cloud-storage:2.30.0"
+    }
+
+    object Jakarta {
+        const val email = "com.sun.mail:jakarta.mail:$jakartaEmail"
     }
 }

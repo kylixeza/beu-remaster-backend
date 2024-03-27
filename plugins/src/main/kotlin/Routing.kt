@@ -17,6 +17,7 @@ fun Application.configureRouting() {
     val reviewRoute by inject<ReviewRoute>()
     val favoriteRoute by inject<FavoriteRoute>()
     val profileRoute by inject<ProfileRoute>()
+    val helpCenterRoute by inject<HelpCenterRoute>()
     val staticResourcesRoute by inject<StaticResourcesRoute>()
 
     routing {
@@ -36,6 +37,7 @@ fun Application.configureRouting() {
 
         favoriteRoute.apply { favorites() }
         profileRoute.apply { profile() }
+        helpCenterRoute.apply { helpCenter() }
         staticResourcesRoute.apply { privacyPolicy(); termsAndConditions() }
     }
 }

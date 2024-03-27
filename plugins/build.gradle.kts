@@ -30,6 +30,7 @@ dependencies {
     implementation(project(Modules.review))
     implementation(project(Modules.favorite))
     implementation(project(Modules.profile))
+    implementation(project(Modules.help_center))
     implementation(project(Modules.static_resources))
 }
 
