@@ -11,7 +11,7 @@ object UserTable: Table() {
     val name = varchar("name", 64)
     val avatar = varchar("avatar", 512)
     val phoneNumber = varchar("phone_number", 24)
-    val email = varchar("email", 64)
+    val email = varchar("email", 64).nullable()
 
     val password = varchar("password", 1024)
     val salt = varchar("salt", 1024)

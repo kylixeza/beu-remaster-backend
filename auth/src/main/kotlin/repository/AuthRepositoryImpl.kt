@@ -35,7 +35,6 @@ class AuthRepositoryImpl(
         val uid = UUID.randomUUID().toString()
         UserTable.insert {
             it[UserTable.uid] = uid
-            it[email] = body.email
             it[username] = body.username
             it[password] = saltedHash.hash
             it[salt] = saltedHash.salt
