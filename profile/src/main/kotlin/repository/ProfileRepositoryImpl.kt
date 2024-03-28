@@ -39,6 +39,7 @@ class ProfileRepositoryImpl(
                 it[username] = request.username
                 it[name] = request.name
                 it[phoneNumber] = request.phoneNumber
+                it[email] = request.email
             }
 
             if (fileByte != null) {
