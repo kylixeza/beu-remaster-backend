@@ -9,6 +9,7 @@ import io.ktor.server.request.*
 import model.recipe.HomeRecipeResponse
 import model.recipe.RecipeRequest
 import repository.recipe.RecipeRepository
+import util.PreferConsumeAt
 import util.getPreferConsumeAt
 
 class RecipeControllerImpl(
@@ -45,23 +46,26 @@ class RecipeControllerImpl(
         val healthyRecipes = repository.getHealthyRecipes(uid)
         val bestRecipes = repository.getBestRecipes(uid)
 
-        val preferredTranslate = getPreferConsumeAt().translate
-
         val preferredBaseHomeResponse = HomeRecipeResponse(
-            title = "Masak Untuk $preferredTranslate?",
+            when(getPreferConsumeAt()) {
+                PreferConsumeAt.BREAKFAST -> "Pagi-Pagi Enaknya Sarapan Apa Ya? 🌞🍳"
+                PreferConsumeAt.LUNCH -> "Udah Waktunya Makan Siang Nih! 🍱"
+                PreferConsumeAt.SNACK -> "Lagi Lapar? Nyemil Aja! 🍪"
+                PreferConsumeAt.DINNER -> "Malam-Malam Laper Ya? 🌝🍜"
+            },
             subtitle = "Cek rekomendasi berikut!",
             recipes = preferredRecipes
         )
 
         val healthyBaseHomeResponse = HomeRecipeResponse(
-            title = "Pilihan Hidup Sehat",
+            title = "Pilihan Hidup Sehat 🥗",
             subtitle = null,
             recipes = healthyRecipes
         )
 
         val bestBaseHomeResponse = HomeRecipeResponse(
-            title = "Makanan Terbaik Kami",
-            subtitle = "Menu masakan dengan ulasan terbaik!",
+            title = "Resep Terbaik 🤩",
+            subtitle = "Resep masakan dengan ulasan terbaik!",
             recipes = bestRecipes
         )
 
