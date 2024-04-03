@@ -17,7 +17,7 @@ class HelpCenterEmailServiceImpl(
         message: String,
         name: String,
         to: String,
-        ticketId: String,
+        ticketSubject: String,
         onSuccess: suspend () -> Unit,
         onError: suspend (Exception) -> Unit
     ) = withContext(Dispatchers.IO) {
@@ -37,7 +37,7 @@ class HelpCenterEmailServiceImpl(
 
             val templatePath = "$resourcesDir/beu_email_template.html"
             var emailContent = String(Files.readAllBytes(Paths.get(templatePath)))
-            val subject = "Pusat Bantuan Beu: $ticketId"
+            val subject = "Pusat Bantuan Beu: $ticketSubject"
 
             emailContent = emailContent.replace("\${name}", name)
                 .replace("\${helpMessage}", message)

@@ -6,7 +6,7 @@ interface EmailService {
         message: String,
         name: String,
         to: String,
-        ticketId: String,
+        ticketSubject: String,
         onSuccess: suspend () -> Unit,
         onError: suspend (Exception) -> Unit
     )

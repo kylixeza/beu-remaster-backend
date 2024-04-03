@@ -7,7 +7,8 @@ object HelpCenterTable: Table() {
 
     override val tableName: String = "help_center"
 
-    val ticketId = varchar("ticket_id", 24)
+    val ticketId = varchar("ticket_id", 255)
+    val ticketSubject = varchar("ticket_subject", 24)
     val uid = reference("uid", UserTable.uid)
     val message = text("message")
     val status = enumeration("status", TicketStatus::class)

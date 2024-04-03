@@ -1,5 +1,6 @@
 package repository
 
+import com.aventrix.jnanoid.jnanoid.NanoIdUtils
 import database.DatabaseFactory
 import model.help_center.HelpCenterRequest
 import org.jetbrains.exposed.sql.SortOrder
@@ -16,21 +17,22 @@ class HelpCenterRepositoryImpl(
 
     override suspend fun createTicket(uid: String, body: HelpCenterRequest): String {
         return db.dbQuery {
-            val latestTicketIdNumber = HelpCenterTable.selectAll()
-                .orderBy(HelpCenterTable.ticketId to SortOrder.DESC)
+            val latestTicketSubjectNumber = HelpCenterTable.selectAll()
+                .orderBy(HelpCenterTable.ticketSubject to SortOrder.DESC)
                 .limit(1)
-                .singleOrNull()?.get(HelpCenterTable.ticketId)?.removePrefix("#TICKET-")?.toInt() ?: 0
+                .singleOrNull()?.get(HelpCenterTable.ticketSubject)?.removePrefix("#TICKET-")?.toInt() ?: 0
 
-            val ticketId = "#TICKET-${latestTicketIdNumber + 1}"
+            val ticketSubject = "#TICKET-${latestTicketSubjectNumber + 1}"
 
             HelpCenterTable.insert {
+                it[this.ticketId] = "TICKET-${NanoIdUtils.randomNanoId()}"
+                it[this.ticketSubject] = ticketSubject
                 it[this.uid] = uid
                 it[this.message] = body.message
                 it[this.status] = TicketStatus.OPEN
-                it[this.ticketId] = ticketId
             }
 
-            ticketId
+            ticketSubject
         }
     }
 

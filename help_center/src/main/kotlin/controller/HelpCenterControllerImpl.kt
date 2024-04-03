@@ -16,7 +16,7 @@ class HelpCenterControllerImpl(
     override suspend fun ApplicationCall.sendEmail(uid: String) {
 
         val body = receive<HelpCenterRequest>()
-        val ticketId = helpCenterRepository.createTicket(uid, body)
+        val ticketSubject = helpCenterRepository.createTicket(uid, body)
 
         val name = helpCenterRepository.getName(uid)
         val email = helpCenterRepository.getEmail(uid)
@@ -25,7 +25,7 @@ class HelpCenterControllerImpl(
             message = body.message,
             name = name,
             to = email,
-            ticketId = ticketId,
+            ticketSubject = ticketSubject,
             onSuccess = { buildSuccessResponse { "Email berhasil dikirimkan" } },
             onError = { buildErrorResponse(it)}
         )
