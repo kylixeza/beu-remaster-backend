@@ -2,9 +2,9 @@ package util
 
 import kotlinx.datetime.*
 
-fun createTimeStamp() = run {
+fun createTimeStamp(timeZone: TimeZone = TimeZone.UTC) = run {
     val now = Clock.System.now()
-   now.toLocalDateTime(TimeZone.UTC)
+   now.toLocalDateTime(timeZone)
 }
 
 fun LocalDateTime.durationSince(): String = run {

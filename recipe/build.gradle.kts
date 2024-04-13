@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(Libs.Ktor.core)
+    implementation(Libs.Ktor.gson)
     implementation(Libs.Exposed.core)
     implementation(Libs.Util.jnanoid)
     implementation(Libs.Util.dateTime)

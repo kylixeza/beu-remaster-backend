@@ -5,6 +5,7 @@ import org.koin.ktor.ext.inject
 import route.*
 import route.category.CategoryRoute
 import route.nutrition.NutritionRoute
+import route.prediction.PredictionRoute
 import route.recipe.RecipeRoute
 
 fun Application.configureRouting() {
@@ -12,6 +13,7 @@ fun Application.configureRouting() {
     val categoryRoute by inject<CategoryRoute>()
     val nutritionRoute by inject<NutritionRoute>()
     val recipeRoute by inject<RecipeRoute>()
+    val predictionRoute by inject<PredictionRoute>()
     val commentRoute by inject<CommentRoute>()
     val historyRoute by inject<HistoryRoute>()
     val reviewRoute by inject<ReviewRoute>()
@@ -31,6 +33,7 @@ fun Application.configureRouting() {
             commentRoute,
             favoriteRoute
         )}
+        predictionRoute.apply { prediction() }
         historyRoute.apply { histories(
             reviewRoute
         ) }
