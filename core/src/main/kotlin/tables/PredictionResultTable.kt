@@ -10,8 +10,8 @@ object PredictionResultTable: Table() {
 
     val predictionId = varchar("prediction_id", 255)
     val timestamp = datetime("time_stamp")
-    val expected = varchar("expected", 255)
-    val predicted = varchar("predicted", 255)
+    val prediction = varchar("prediction", 255)
+    val actual = varchar("actual", 255)
     val probability = double("probability")
     val image = varchar("image", 255)
 

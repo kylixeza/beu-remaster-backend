@@ -24,13 +24,13 @@ class PredictionRepositoryImpl(
 ): PredictionRepository {
     override suspend fun insertPredictionResult(request: PredictionResultRequest, fileByte: ByteArray) {
         db.dbQuery {
-            val url = cloudStorageService.run { fileByte.uploadFile("prediction/${request.predicted}") }
+            val url = cloudStorageService.run { fileByte.uploadFile("prediction/${request.actual}") }
 
             PredictionResultTable.insert {
                 it[predictionId] = "PREDICTION-${NanoIdUtils.randomNanoId()}"
                 it[timestamp] = createTimeStamp(TimeZone.of("Asia/Jakarta"))
-                it[expected] = request.expected
-                it[predicted] = request.predicted
+                it[prediction] = request.prediction
+                it[actual] = request.actual
                 it[probability] = request.probability
                 it[image] = url
             }

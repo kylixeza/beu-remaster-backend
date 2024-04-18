@@ -1,7 +1,7 @@
 package model.prediction
 
 data class PredictionResultRequest(
-    val expected: String,
-    val predicted: String,
+    val prediction: String,
+    val actual: String,
     val probability: Double,
 )
