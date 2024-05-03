@@ -17,6 +17,7 @@ object RecipeTable: Table() {
     val endEstimation = integer("end_estimation").default(0)
     val estimationUnit = varchar("estimation_unit", 64).default("")
     val video = varchar("video", 512).default("")
+    val videoSrc = varchar("video_src", 512).default("")
     val preferConsumeAt = enumeration("prefer_consume_at", PreferConsumeAt::class).default(PreferConsumeAt.BREAKFAST)
 
     override val primaryKey: PrimaryKey = PrimaryKey(recipeId)

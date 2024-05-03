@@ -63,6 +63,7 @@ fun ResultRow.toRecipeDetailResponse(
     isFavorite = isFavorite,
     name = this[RecipeTable.name],
     video = this[RecipeTable.video],
+    videoSrc = this[RecipeTable.videoSrc],
     ingredients = ingredients,
     tools = tools,
     steps = steps,

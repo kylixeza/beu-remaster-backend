@@ -14,6 +14,8 @@ data class RecipeRequest(
     @field:SerializedName("estimation_unit")
     val estimationUnit: String,
     val video: String,
+    @field:SerializedName("video_src")
+    val videoSrc: String,
     @field:SerializedName("prefer_consume_at")
     val preferConsumeAt: String,
     val ingredients: List<String>,

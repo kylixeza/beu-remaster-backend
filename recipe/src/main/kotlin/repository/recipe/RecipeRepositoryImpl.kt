@@ -29,6 +29,7 @@ class RecipeRepositoryImpl(
                 it[endEstimation] = request.endEstimation
                 it[estimationUnit] = request.estimationUnit
                 it[video] = request.video
+                it[videoSrc] = request.videoSrc
                 it[preferConsumeAt] = request.preferConsumeAt.enumeratePreferConsumeAt()
             }
             request.ingredients.forEach { ingredient ->
@@ -167,7 +168,7 @@ class RecipeRepositoryImpl(
                 .select { CommentTable.recipeId.eq(recipeId) }.map { it[CommentTable.commentId] }.size
 
             getBaseQuery(
-                RecipeTable.video, RecipeTable.description, RecipeTable.startEstimation,
+                RecipeTable.video, RecipeTable.videoSrc, RecipeTable.description, RecipeTable.startEstimation,
                 RecipeTable.endEstimation, RecipeTable.estimationUnit, Count(ReviewTable.rating)
             ).select { RecipeTable.recipeId eq recipeId }.getBaseGroupBy()
                 .map { it.toRecipeDetailResponse(isFavorite, ingredients, tools, steps, nutrition, reviews, commentsCount) }

@@ -12,6 +12,8 @@ data class RecipeDetailResponse(
     val isFavorite: Boolean,
     val name: String,
     val video: String,
+    @field:SerializedName("video_src")
+    val videoSrc: String,
     val ingredients: List<String>,
     val tools: List<String>,
     val steps: List<String>,
