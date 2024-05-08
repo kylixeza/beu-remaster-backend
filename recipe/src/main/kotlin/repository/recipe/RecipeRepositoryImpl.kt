@@ -113,12 +113,10 @@ class RecipeRepositoryImpl(
         return db.dbQuery {
             val recipeIdByCategoryName = CategoryTable.join(CategoryRecipeTable, JoinType.INNER) {
                 CategoryTable.categoryId eq CategoryRecipeTable.categoryId
-            }.select { CategoryTable.name eq categoryName }.map { it[CategoryRecipeTable.categoryId] }
-            getBaseQuery().selectAll()
+            }.select { CategoryTable.name eq categoryName }.map { it[CategoryRecipeTable.recipeId] }
+            getBaseQuery().select { RecipeTable.recipeId inList recipeIdByCategoryName }
                 .getBaseGroupBy()
                 .map { it.toRecipeListResponse(uid) }
-                .filter { it.recipeId in recipeIdByCategoryName }
-                .distinctBy { it.recipeId }
         }
     }
 
@@ -126,7 +124,8 @@ class RecipeRepositoryImpl(
         return db.dbQuery {
             getBaseQuery().selectAll()
                 .getBaseGroupBy()
-                .orderBy(Avg(ReviewTable.rating, 1), SortOrder.DESC)
+                .orderBy(Avg(ReviewTable.rating, 1), SortOrder.ASC)
+                .take(5)
                 .map { it.toRecipeListResponse(uid) }
         }
     }
