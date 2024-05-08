@@ -7,6 +7,6 @@ object StepTable: Table() {
     override val tableName: String = "step"
 
     val recipeId = reference("recipe_id", RecipeTable.recipeId)
-    val step = varchar("step", 128)
+    val step = varchar("step", 256)
     val order = integer("order").default(0)
 }
