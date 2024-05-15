@@ -24,7 +24,7 @@ class PredictionRepositoryImpl(
 ): PredictionRepository {
     override suspend fun insertPredictionResult(request: PredictionResultRequest, fileByte: ByteArray) {
         db.dbQuery {
-            val url = cloudStorageService.run { fileByte.uploadFile("prediction/${request.actual}") }
+            val url = cloudStorageService.run { fileByte.uploadFile("prediction/${request.prediction}") }
 
             PredictionResultTable.insert {
                 it[predictionId] = "PREDICTION-${NanoIdUtils.randomNanoId()}"
