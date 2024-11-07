@@ -65,19 +65,25 @@ fun String.fromGeolocationResponseToLocal(): LocalTime {
 }
 
 fun ApplicationCall.getDateTimeBasedOnIp(): LocalTime {
-    val userIp = request.header("X-Forwarded-For") ?: request.local.remoteHost
-    val geolocationApiKey = System.getenv("GEOLOCATION_API_KEY")
-    val api = IPGeolocationAPI(geolocationApiKey)
+    //just in case if reach the limit of the API due to free tier
+    return try {
+        val userIp = request.header("X-Forwarded-For") ?: request.local.remoteHost
+        val geolocationApiKey = System.getenv("GEOLOCATION_API_KEY")
+        val api = IPGeolocationAPI(geolocationApiKey)
 
-    val geoParams = GeolocationParams.builder()
-    geoParams.withIPAddress(userIp)
-    geoParams.withFields("time_zone")
+        val geoParams = GeolocationParams.builder()
+        geoParams.withIPAddress(userIp)
+        geoParams.withFields("time_zone")
 
-    val response = api.getGeolocation(geoParams.build())
+        val response = api.getGeolocation(geoParams.build())
 
-    return if (response != null) {
-        response.timezone.currentTime.fromGeolocationResponseToLocal()
-    } else {
+        return if (response != null) {
+            response.timezone.currentTime.fromGeolocationResponseToLocal()
+        } else {
+            val now = Clock.System.now()
+            now.toLocalDateTime(TimeZone.of("Asia/Jakarta")).time
+        }
+    } catch (e: Exception) {
         val now = Clock.System.now()
         now.toLocalDateTime(TimeZone.of("Asia/Jakarta")).time
     }
