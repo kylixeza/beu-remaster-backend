@@ -99,8 +99,8 @@ class ProfileRepositoryImpl(
             email = this[UserTable.email],
             username = this[UserTable.username],
             avatar = this[UserTable.avatar],
-            name = this[UserTable.name],
-            phoneNumber = this[UserTable.phoneNumber]
+            name = this[UserTable.name].orEmpty(),
+            phoneNumber = this[UserTable.phoneNumber].orEmpty()
         )
 
 }

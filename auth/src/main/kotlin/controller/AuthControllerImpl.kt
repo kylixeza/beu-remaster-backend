@@ -21,16 +21,16 @@ class AuthControllerImpl(
 ): AuthController {
     override suspend fun ApplicationCall.register() {
         val body = receive<RegisterRequest>()
-        val isPhoneNumberExist = authRepository.isPhoneNumberExist(body.phoneNumber)
+        val isEmailExist = authRepository.isEmailExist(body.email)
         val isUsernameExist = authRepository.isUsernameExist(body.username)
 
-        if (isPhoneNumberExist) {
-            buildErrorResponse(message = "Nomor telepon sudah digunakan")
+        if (isEmailExist) {
+            buildErrorResponse(message = "Email already in use")
             return
         }
 
         if (isUsernameExist) {
-            buildErrorResponse(message = "Username sudah digunakan")
+            buildErrorResponse(message = "Username already in use")
             return
         }
 

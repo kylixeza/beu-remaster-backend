@@ -39,8 +39,7 @@ class AuthRepositoryImpl(
             it[password] = saltedHash.hash
             it[salt] = saltedHash.salt
             it[avatar] = ""
-            it[name] = body.name
-            it[phoneNumber] = body.phoneNumber
+            it[email] = body.email
         } get UserTable.uid
     }
 

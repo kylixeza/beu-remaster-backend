@@ -8,10 +8,10 @@ object UserTable: Table() {
 
     val uid = varchar("uid", 256)
     val username = varchar("username", 64)
-    val name = varchar("name", 64)
+    val name = varchar("name", 64).nullable()
     val avatar = varchar("avatar", 512)
-    val phoneNumber = varchar("phone_number", 24)
-    val email = varchar("email", 64).nullable()
+    val phoneNumber = varchar("phone_number", 24).nullable()
+    val email = varchar("email", 64).default("")
 
     val password = varchar("password", 1024)
     val salt = varchar("salt", 1024)
