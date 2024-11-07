@@ -3,7 +3,6 @@ package util
 import io.ipgeolocation.api.GeolocationParams
 import io.ipgeolocation.api.IPGeolocationAPI
 import io.ktor.server.application.*
-import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
