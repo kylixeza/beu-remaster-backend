@@ -35,7 +35,7 @@ class ReviewControllerImpl(
 
         if (body != null) {
             repository.insertReview(uid, historyId, body!!, fileBytes)
-            buildSuccessResponse { "Ulasan berhasil ditambahkan" }
+            buildSuccessResponse { "Review was added successfully" }
         }
     }
 

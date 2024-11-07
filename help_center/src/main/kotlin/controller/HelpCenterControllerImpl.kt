@@ -26,7 +26,7 @@ class HelpCenterControllerImpl(
             name = name,
             to = email,
             ticketSubject = ticketSubject,
-            onSuccess = { buildSuccessResponse { "Email berhasil dikirimkan" } },
+            onSuccess = { buildSuccessResponse { "Email was sent successfully" } },
             onError = { buildErrorResponse(it)}
         )
     }

@@ -48,24 +48,24 @@ class RecipeControllerImpl(
 
         val preferredBaseHomeResponse = HomeRecipeResponse(
             when(getPreferConsumeAt()) {
-                PreferConsumeAt.BREAKFAST -> "Pagi-Pagi Enaknya Sarapan Apa Ya? 🌞🍳"
-                PreferConsumeAt.LUNCH -> "Udah Waktunya Makan Siang Nih! 🍱"
-                PreferConsumeAt.SNACK -> "Lagi Lapar? Nyemil Aja! 🍪"
-                PreferConsumeAt.DINNER -> "Malam-Malam Laper Ya? 🌝🍜"
+                PreferConsumeAt.BREAKFAST -> "What should I have for breakfast? 🌞🍳"
+                PreferConsumeAt.LUNCH -> "It's time for lunch! 🍱"
+                PreferConsumeAt.SNACK -> "Feel hungry? Let's make some snacks! 🍪"
+                PreferConsumeAt.DINNER -> "Dinner time! 🌝🍜"
             },
-            subtitle = "Cek rekomendasi berikut!",
+            subtitle = "Check out these recommendations!",
             recipes = preferredRecipes
         )
 
         val healthyBaseHomeResponse = HomeRecipeResponse(
-            title = "Pilihan Hidup Sehat 🥗",
+            title = "Healthy Lifestyle Choices 🥗",
             subtitle = null,
             recipes = healthyRecipes
         )
 
         val bestBaseHomeResponse = HomeRecipeResponse(
-            title = "Resep Terbaik 🤩",
-            subtitle = "Resep masakan dengan ulasan terbaik!",
+            title = "Best Recipe 🤩",
+            subtitle = "Cooking recipes with the best reviews!",
             recipes = bestRecipes
         )
 

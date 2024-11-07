@@ -36,7 +36,7 @@ class PredictionControllerImpl(
 
         if (body !== null && fileByte != null) {
             repository.insertPredictionResult(body ?: return, fileByte ?: return)
-            buildSuccessResponse { "Hasil Prediksi Berhasil Ditambahkan" }
+            buildSuccessResponse { "Prediction result was added successfully" }
         }
     }
 

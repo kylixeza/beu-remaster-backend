@@ -22,11 +22,11 @@ class NutritionControllerImpl(
 
         body.forEach {
             if (it.name.isBlank()) {
-                buildErrorResponse(HttpStatusCode.BadRequest,"Nama nutrisi tidak boleh kosong")
+                buildErrorResponse(HttpStatusCode.BadRequest,"Nutrition name cannot be empty")
                 return
             }
 
-            buildSuccessResponse("Nutrisi berhasil ditambahkan") { repository.insertNutrition(it) }
+            buildSuccessResponse("Nutrition added successfully") { repository.insertNutrition(it) }
         }
     }
 
@@ -38,6 +38,6 @@ class NutritionControllerImpl(
             return
         }
 
-        buildSuccessResponse("Nutrisi untuk resep berhasil ditambahkan") { repository.insertNutritionRecipe(body) }
+        buildSuccessResponse("Nutrition for this recipe was added successfully") { repository.insertNutritionRecipe(body) }
     }
 }

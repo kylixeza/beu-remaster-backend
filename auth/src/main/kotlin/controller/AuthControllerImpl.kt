@@ -48,19 +48,19 @@ class AuthControllerImpl(
         val isUsernameExist = authRepository.isUsernameExist(body.identifier)
 
         if (!isEmailExist && !isPhoneNumberExist && !isUsernameExist) {
-            buildErrorResponse(message = "Pengguna tidak ditemukan, silahkan daftar terlebih dahulu")
+            buildErrorResponse(message = "user not found, please register first")
             return
         }
 
         val user = authRepository.getUserByIdentifier(body.identifier)
         if (user == null) {
-            buildErrorResponse(message = "Pengguna tidak ditemukan, silahkan daftar terlebih dahulu")
+            buildErrorResponse(message = "user not found, please register first")
             return
         }
 
         val isPasswordValid = hashService.verify(body.password, SaltedHash(user.password, user.salt))
         if (!isPasswordValid) {
-            buildErrorResponse(message = "Password salah, silahkan coba lagi")
+            buildErrorResponse(message = "password is incorrect")
             return
         }
 
@@ -71,6 +71,6 @@ class AuthControllerImpl(
     override suspend fun ApplicationCall.logout() {
         val token = request.header("Authorization")?.substring("Bearer ".length).orEmpty()
         tokenService.insertToBlacklist(token)
-        buildSuccessResponse { "Berhasil keluar" }
+        buildSuccessResponse { "Logout successful" }
     }
 }

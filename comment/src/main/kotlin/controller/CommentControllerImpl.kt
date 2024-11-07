@@ -12,7 +12,7 @@ class CommentControllerImpl(
 ): CommentController {
     override suspend fun ApplicationCall.insertComment(recipeId: String, uid: String) {
         val body = receive<CommentRequest>()
-        buildSuccessResponse("Komentar berhasil ditambahkan") { repository.insertComment(body, recipeId, uid) }
+        buildSuccessResponse("Comment added successfully") { repository.insertComment(body, recipeId, uid) }
     }
 
     override suspend fun ApplicationCall.getComments(uid: String, recipeId: String) {
