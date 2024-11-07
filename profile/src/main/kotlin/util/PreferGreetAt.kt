@@ -6,11 +6,11 @@ fun ApplicationCall.getPreferGreetAt(): String {
     val currentTime = getDateTimeBasedOnIp()
 
     return when (currentTime.hour) {
-        in 5..9 -> "Selamat pagi"
-        in 10..14 -> "Selamat siang"
-        in 15..17 -> "Selamat sore"
-        in 18..24 -> "Selamat malam"
-        in 0..4 -> "Selamat malam"
-        else -> "Selamat datang"
+        in 5..9 -> "Good morning"
+        in 10..14 -> "Good afternoon"
+        in 15..21 -> "Good evening"
+        in 22..24 -> "Good night"
+        in 0..4 -> "Good night"
+        else -> "Welcome"
     }
 }
