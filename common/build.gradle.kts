@@ -14,6 +14,7 @@ dependencies {
     implementation(Libs.Ktor.core)
     implementation(Libs.Ktor.gson)
     implementation(Libs.Util.dateTime)
+    implementation(Libs.GeoLocation.ipGeolocation)
 }
 
 tasks.test {

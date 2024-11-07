@@ -16,12 +16,11 @@ class ProfileRepositoryImpl(
     private val cloudStorageService: CloudStorageService
 ): ProfileRepository {
     override suspend fun greetUser(uid: String): String {
-        val greeting = getPreferGreetAt()
         return db.dbQuery {
             UserTable.select {
                 UserTable.uid eq uid
             }.map { it[UserTable.username] }.first()
-        }.let { "$greeting, $it" }
+        }
     }
 
     override suspend fun getUser(uid: String): UserResponse {

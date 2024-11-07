@@ -11,13 +11,18 @@ import com.google.gson.Gson
 import io.ktor.http.*
 import model.user.PasswordRequest
 import security.hashing.HashingService
+import util.getPreferGreetAt
 
 class ProfileControllerImpl(
     private val repository: ProfileRepository,
     private val hashService: HashingService
 ): ProfileController {
     override suspend fun ApplicationCall.greetUser(uid: String) {
-        buildSuccessResponse { repository.greetUser(uid) }
+        val greeting = getPreferGreetAt()
+        buildSuccessResponse {
+            val username = repository.greetUser(uid)
+            "$greeting, $username"
+        }
     }
 
     override suspend fun ApplicationCall.getUser(uid: String) {

@@ -1,13 +1,10 @@
 package util
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import io.ktor.server.application.*
 
-fun getPreferGreetAt(): String {
-    val now = Clock.System.now()
-    //TODO: Make sure to change the timezone to the user's timezone using global ip address to detect the timezone
-    val currentTime = now.toLocalDateTime(TimeZone.of("Asia/Jakarta")).time
+fun ApplicationCall.getPreferGreetAt(): String {
+    val currentTime = getDateTimeBasedOnIp()
+
     return when (currentTime.hour) {
         in 5..9 -> "Selamat pagi"
         in 10..14 -> "Selamat siang"

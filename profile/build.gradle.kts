@@ -16,6 +16,7 @@ dependencies {
     implementation(Libs.Util.jnanoid)
     implementation(Libs.Util.dateTime)
     implementation(Libs.GoogleCloud.storage)
+    implementation(Libs.GeoLocation.ipGeolocation)
 
     implementation(Libs.Koin.koin)
 
