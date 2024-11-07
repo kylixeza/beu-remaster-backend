@@ -37,8 +37,6 @@ class ProfileRepositoryImpl(
 
             UserTable.update({ UserTable.uid eq uid }) {
                 it[username] = request.username
-                it[name] = request.name
-                it[phoneNumber] = request.phoneNumber
                 it[email] = request.email
             }
 

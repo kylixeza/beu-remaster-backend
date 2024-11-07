@@ -36,20 +36,14 @@ class ProfileControllerImpl(
                     if (part.name == "body") {
                         val isUsernameExist = repository.isUsernameExist(uid, username = body?.username.orEmpty())
                         val isEmailExist = repository.isEmailExist(uid, email = body?.email.orEmpty())
-                        val isPhoneNumberExist = repository.isPhoneNumberExist(uid, phoneNumber = body?.phoneNumber.orEmpty())
 
                         if (isUsernameExist) {
-                            buildErrorResponse(HttpStatusCode.BadRequest, message = "Username sudah digunakan")
+                            buildErrorResponse(HttpStatusCode.BadRequest, message = "Username already in use")
                             return@forEachPart
                         }
 
                         if (isEmailExist) {
-                            buildErrorResponse(HttpStatusCode.BadRequest, message = "Email sudah digunakan")
-                            return@forEachPart
-                        }
-
-                        if (isPhoneNumberExist) {
-                            buildErrorResponse(HttpStatusCode.BadRequest, message = "Nomor telepon sudah digunakan")
+                            buildErrorResponse(HttpStatusCode.BadRequest, message = "Email already in use")
                             return@forEachPart
                         }
 
