@@ -42,12 +42,14 @@ class RecipeControllerImpl(
     }
 
     override suspend fun ApplicationCall.getHomeRecipes(uid: String) {
-        val preferredRecipes  = repository.getPreferredRecipesByConsumeTime(uid)
+        val preferConsumeAt = getPreferConsumeAt()
+
+        val preferredRecipes  = repository.getPreferredRecipesByConsumeTime(uid, preferConsumeAt)
         val healthyRecipes = repository.getHealthyRecipes(uid)
         val bestRecipes = repository.getBestRecipes(uid)
 
         val preferredBaseHomeResponse = HomeRecipeResponse(
-            when(getPreferConsumeAt()) {
+            when(preferConsumeAt) {
                 PreferConsumeAt.BREAKFAST -> "What should I have for breakfast? 🌞🍳"
                 PreferConsumeAt.LUNCH -> "It's time for lunch! 🍱"
                 PreferConsumeAt.SNACK -> "Feel hungry? Let's make some snacks! 🍪"

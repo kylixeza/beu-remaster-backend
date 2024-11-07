@@ -101,10 +101,12 @@ class RecipeRepositoryImpl(
         }
     }
 
-    override suspend fun getPreferredRecipesByConsumeTime(uid: String): List<RecipeListResponse> = db.dbQuery {
-        val preferAt = getPreferConsumeAt()
+    override suspend fun getPreferredRecipesByConsumeTime(
+        uid: String,
+        preferConsumeAt: PreferConsumeAt
+    ): List<RecipeListResponse> = db.dbQuery {
         getBaseQuery().select {
-            RecipeTable.preferConsumeAt.eq(preferAt)
+            RecipeTable.preferConsumeAt.eq(preferConsumeAt)
         }.getBaseGroupBy().map { it.toRecipeListResponse(uid) }
     }
 

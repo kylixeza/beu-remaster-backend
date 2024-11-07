@@ -9,6 +9,7 @@ import Version.logbackVersion
 import Version.postgresqlVersion
 import Version.slf4jVersion
 import Version.kotlinxDateTime
+import Version.ipGeolocationVersion
 
 object App {
     const val version = "1.0.0"
@@ -42,8 +43,9 @@ object Version {
     const val logbackVersion = "1.4.11"
     const val commonsCodecVersion = "1.15"
     const val slf4jVersion = "2.0.10"
-    const val kotlinxDateTime = "0.5.0"
+    const val kotlinxDateTime = "0.6.1"
     const val jakartaEmail = "2.0.1"
+    const val ipGeolocationVersion = "1.0.16"
 }
 
 object Libs {
@@ -102,5 +104,9 @@ object Libs {
 
     object Jakarta {
         const val email = "com.sun.mail:jakarta.mail:$jakartaEmail"
+    }
+
+    object GeoLocation {
+        const val ipGeolocation = "io.ipgeolocation:ipgeolocation:$ipGeolocationVersion"
     }
 }

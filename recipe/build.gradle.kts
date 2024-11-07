@@ -16,6 +16,7 @@ dependencies {
     implementation(Libs.Exposed.core)
     implementation(Libs.Util.jnanoid)
     implementation(Libs.Util.dateTime)
+    implementation(Libs.GeoLocation.ipGeolocation)
 
     implementation(Libs.Koin.koin)
 

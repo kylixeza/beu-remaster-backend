@@ -1,6 +1,11 @@
 package util
 
 import kotlinx.datetime.*
+import kotlinx.datetime.format.DateTimeComponents
+import kotlinx.datetime.format.DateTimeFormat
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import java.time.format.DateTimeFormatter
 
 fun createTimeStamp(timeZone: TimeZone = TimeZone.UTC) = run {
     val now = Clock.System.now()
@@ -47,4 +52,10 @@ private fun Month.toIndonesianLocal() = when(this) {
     java.time.Month.OCTOBER -> "Oktober"
     java.time.Month.NOVEMBER -> "November"
     else -> "Desember"
+}
+
+fun String.fromGeolocationResponseToLocal(): LocalTime {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSZ")
+    val dateTime = java.time.LocalDateTime.parse(this, formatter).toKotlinLocalDateTime()
+    return dateTime.time
 }
