@@ -111,7 +111,7 @@ class RecipeRepositoryImpl(
     }
 
     override suspend fun getHealthyRecipes(uid: String): List<RecipeListResponse> {
-        val categoryName = "Sayur"
+        val categoryName = "Vegetables"
         return db.dbQuery {
             val recipeIdByCategoryName = CategoryTable.join(CategoryRecipeTable, JoinType.INNER) {
                 CategoryTable.categoryId eq CategoryRecipeTable.categoryId
