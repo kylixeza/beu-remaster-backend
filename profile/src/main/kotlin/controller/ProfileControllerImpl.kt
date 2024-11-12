@@ -39,21 +39,20 @@ class ProfileControllerImpl(
             when (part) {
                 is PartData.FormItem -> {
                     if (part.name == "body") {
-                        val currentUser = repository.getUser(uid)
+                        Gson().fromJson(part.value, UserRequest::class.java).let { body = it }
+
                         val isUsernameExist = repository.isUsernameExist(uid, username = body?.username.orEmpty())
                         val isEmailExist = repository.isEmailExist(uid, email = body?.email.orEmpty())
 
-                        if (isUsernameExist && currentUser.username != body?.username) {
+                        if (isUsernameExist) {
                             buildErrorResponse(HttpStatusCode.BadRequest, message = "Username already in use")
                             return@forEachPart
                         }
 
-                        if (isEmailExist && currentUser.email != body?.email) {
+                        if (isEmailExist) {
                             buildErrorResponse(HttpStatusCode.BadRequest, message = "Email already in use")
                             return@forEachPart
                         }
-
-                        Gson().fromJson(part.value, UserRequest::class.java).let { body = it }
                     }
                 }
                 is PartData.FileItem -> {
