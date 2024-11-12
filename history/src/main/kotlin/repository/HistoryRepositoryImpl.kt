@@ -10,7 +10,6 @@ import tables.RecipeTable
 import tables.ReviewTable
 import util.breakDown
 import util.createTimeStamp
-import util.durationSince
 
 class HistoryRepositoryImpl(
     private val db: DatabaseFactory
@@ -75,6 +74,9 @@ class HistoryRepositoryImpl(
         val seconds = this % 60
         val minutes = (this / 60)
 
-        return "$minutes menit $seconds detik"
+        val minutesStr = if (minutes > 1) "$minutes minutes" else "$minutes minute"
+        val secondsStr = if (seconds > 1) "$seconds seconds" else "$seconds second"
+
+        return "$minutesStr $secondsStr"
     }
 }

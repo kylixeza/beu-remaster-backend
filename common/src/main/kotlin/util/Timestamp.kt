@@ -5,10 +5,6 @@ import io.ipgeolocation.api.IPGeolocationAPI
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import kotlinx.datetime.*
-import kotlinx.datetime.format.DateTimeComponents
-import kotlinx.datetime.format.DateTimeFormat
-import kotlinx.datetime.format.FormatStringsInDatetimeFormats
-import kotlinx.datetime.format.byUnicodePattern
 import java.time.format.DateTimeFormatter
 
 fun createTimeStamp(timeZone: TimeZone = TimeZone.UTC) = run {
@@ -29,20 +25,41 @@ fun LocalDateTime.durationSince(): String = run {
     val usingMonthUnit = period.months in 1..11 && period.years == 0
 
     when {
-        usingSecondUnit -> "${period.seconds} detik yang lalu"
-        usingMinuteUnit -> "${period.minutes} menit yang lalu"
-        usingHourUnit -> "${period.hours} jam yang lalu"
-        usingDayUnit -> "${period.days} hari yang lalu"
-        usingWeekUnit -> "${period.days / 7} minggu yang lalu"
-        usingMonthUnit -> "${period.months} bulan yang lalu"
+        usingSecondUnit -> "${period.seconds} seconds ago"
+        usingMinuteUnit -> "${period.minutes} minutes ago"
+        usingHourUnit -> "${period.hours} hours ago"
+        usingDayUnit -> "${period.days} days ago"
+        usingWeekUnit -> "${period.days / 7} weeks ago"
+        usingMonthUnit -> "${period.months} months ago"
         else -> "$dayOfMonth-$monthNumber-$year"
     }
 }
 
 fun LocalDateTime.breakDown() = run {
-    "$dayOfMonth ${month.toIndonesianLocal()} $year, $hour:$minute"
+    "$dayOfMonth ${month.toEnglishLocal()} $year, ${hour.addZeroPrefix()}:${minute.addZeroPrefix()}"
 }
 
+private fun Int.addZeroPrefix() = if (this < 10) "0$this" else this.toString()
+
+private fun Month.toEnglishLocal() = when(this) {
+    java.time.Month.JANUARY -> "January"
+    java.time.Month.FEBRUARY -> "February"
+    java.time.Month.MARCH -> "March"
+    java.time.Month.APRIL -> "April"
+    java.time.Month.MAY -> "May"
+    java.time.Month.JUNE -> "June"
+    java.time.Month.JULY -> "July"
+    java.time.Month.AUGUST -> "August"
+    java.time.Month.SEPTEMBER -> "September"
+    java.time.Month.OCTOBER -> "October"
+    java.time.Month.NOVEMBER -> "November"
+    else -> "December"
+}
+
+@Deprecated(
+    message = "Since API moved for public used (no longer used for thesis), this function is deprecated.",
+    replaceWith = ReplaceWith("toEnglishLocal()")
+)
 private fun Month.toIndonesianLocal() = when(this) {
     java.time.Month.JANUARY -> "Januari"
     java.time.Month.FEBRUARY -> "Februari"
