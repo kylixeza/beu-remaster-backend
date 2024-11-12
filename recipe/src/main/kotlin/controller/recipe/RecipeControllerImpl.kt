@@ -66,7 +66,7 @@ class RecipeControllerImpl(
         )
 
         val bestBaseHomeResponse = HomeRecipeResponse(
-            title = "Best Recipe 🤩",
+            title = "Best Recipes 🤩",
             subtitle = "Cooking recipes with the best reviews!",
             recipes = bestRecipes
         )
