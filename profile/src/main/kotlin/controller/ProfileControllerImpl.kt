@@ -39,15 +39,16 @@ class ProfileControllerImpl(
             when (part) {
                 is PartData.FormItem -> {
                     if (part.name == "body") {
+                        val currentUser = repository.getUser(uid)
                         val isUsernameExist = repository.isUsernameExist(uid, username = body?.username.orEmpty())
                         val isEmailExist = repository.isEmailExist(uid, email = body?.email.orEmpty())
 
-                        if (isUsernameExist) {
+                        if (isUsernameExist && currentUser.username != body?.username) {
                             buildErrorResponse(HttpStatusCode.BadRequest, message = "Username already in use")
                             return@forEachPart
                         }
 
-                        if (isEmailExist) {
+                        if (isEmailExist && currentUser.email != body?.email) {
                             buildErrorResponse(HttpStatusCode.BadRequest, message = "Email already in use")
                             return@forEachPart
                         }
