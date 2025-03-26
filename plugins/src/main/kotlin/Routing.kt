@@ -26,21 +26,23 @@ fun Application.configureRouting() {
         get("/") {
             call.respondText("Hello World!")
         }
-        authRoute.apply { auth() }
-        categoryRoute.apply { categories() }
-        nutritionRoute.apply { nutrition() }
-        recipeRoute.apply { recipes(
-            commentRoute,
-            favoriteRoute
-        )}
-        predictionRoute.apply { prediction() }
-        historyRoute.apply { histories(
-            reviewRoute
-        ) }
+        route("/api") {
+            authRoute.apply { auth() }
+            categoryRoute.apply { categories() }
+            nutritionRoute.apply { nutrition() }
+            recipeRoute.apply { recipes(
+                commentRoute,
+                favoriteRoute
+            )}
+            predictionRoute.apply { prediction() }
+            historyRoute.apply { histories(
+                reviewRoute
+            ) }
 
-        favoriteRoute.apply { favorites() }
-        profileRoute.apply { profile() }
-        helpCenterRoute.apply { helpCenter() }
-        staticResourcesRoute.apply { privacyPolicy(); termsAndConditions() }
+            favoriteRoute.apply { favorites() }
+            profileRoute.apply { profile() }
+            helpCenterRoute.apply { helpCenter() }
+            staticResourcesRoute.apply { privacyPolicy(); termsAndConditions() }
+        }
     }
 }
