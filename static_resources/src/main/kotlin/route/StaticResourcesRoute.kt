@@ -2,6 +2,7 @@ package route
 
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import java.io.FileNotFoundException
@@ -20,6 +21,10 @@ class StaticResourcesRoute {
             val htmlContent = call.application.getResourceAsText("files/terms_and_conditions.html")
             call.respondText(htmlContent, ContentType.Text.Html)
         }
+    }
+
+    fun Route.landingPage() {
+        staticResources("/", "landing-page/public")
     }
 
     private fun Application.getResourceAsText(path: String): String {
