@@ -27,6 +27,10 @@ class StaticResourcesRoute {
         staticResources("/", "landing-page/public")
     }
 
+    fun Route.sitemap() {
+        staticResources("/sitemap.xml", "files", "sitemap.xml")
+    }
+
     private fun Application.getResourceAsText(path: String): String {
         return this::class.java.classLoader.getResourceAsStream(path)?.bufferedReader()?.use { it.readText() }
             ?: throw FileNotFoundException("Resource not found: $path")

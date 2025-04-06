@@ -24,7 +24,7 @@ fun Application.configureRouting() {
     val staticResourcesRoute by inject<StaticResourcesRoute>()
 
     routing {
-        staticResourcesRoute.apply { landingPage() }
+        staticResourcesRoute.apply { landingPage(); sitemap() }
 
         route("/api") {
             authRoute.apply { auth() }
