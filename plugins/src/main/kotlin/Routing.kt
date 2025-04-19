@@ -42,7 +42,7 @@ fun Application.configureRouting() {
             favoriteRoute.apply { favorites() }
             profileRoute.apply { profile() }
             helpCenterRoute.apply { helpCenter() }
-            staticResourcesRoute.apply { privacyPolicy(); termsAndConditions() }
+            staticResourcesRoute.apply { privacyPolicy(); termsAndConditions(); documentation() }
         }
     }
 }

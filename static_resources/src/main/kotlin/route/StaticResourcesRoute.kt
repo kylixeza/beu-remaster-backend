@@ -3,8 +3,10 @@ package route
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 import java.io.FileNotFoundException
 
 class StaticResourcesRoute {
@@ -29,6 +31,12 @@ class StaticResourcesRoute {
 
     fun Route.sitemap() {
         staticResources("/sitemap.xml", "files", "sitemap.xml")
+    }
+
+    fun Route.documentation() {
+        get("/docs") {
+            call.respondRedirect(Url("https://documenter.getpostman.com/view/19816931/2sA35A6QKA"), false)
+        }
     }
 
     private fun Application.getResourceAsText(path: String): String {
