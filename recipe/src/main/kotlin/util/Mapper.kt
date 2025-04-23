@@ -28,7 +28,7 @@ fun ResultRow.toRecipeListResponse(
     image = this[RecipeTable.image],
     isFavorite = this.isFavorite(uid),
     favorites = favoritesCount(this[RecipeTable.recipeId]),
-    rating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
+    rating = (this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO).toDouble(),
     estimationTime = this[RecipeTable.endEstimation]
 )
 
@@ -67,7 +67,7 @@ fun ResultRow.toRecipeDetailResponse(
     ingredients = ingredients,
     tools = tools,
     steps = steps,
-    averageRating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
+    averageRating = (this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO).toDouble(),
     averageCount = this[Count(ReviewTable.rating)],
     description = this[RecipeTable.description],
     estimateTime = "${this[RecipeTable.startEstimation]} - ${this[RecipeTable.endEstimation]} ${this[RecipeTable.estimationUnit]}",

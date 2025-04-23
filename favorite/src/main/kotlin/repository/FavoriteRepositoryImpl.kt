@@ -52,7 +52,7 @@ class FavoriteRepositoryImpl(
         image = this[RecipeTable.image],
         isFavorite = this.isFavorite(uid),
         favorites = favoritesCount(this[RecipeTable.recipeId]),
-        rating = this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO,
+        rating = (this[Avg(ReviewTable.rating, 1)] ?: BigDecimal.ZERO).toDouble(),
         estimationTime = this[RecipeTable.endEstimation]
     )
 }

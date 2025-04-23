@@ -18,7 +18,7 @@ data class RecipeDetailResponse(
     val tools: List<String>,
     val steps: List<String>,
     @field:SerializedName("average_rating")
-    val averageRating: BigDecimal,
+    val averageRating: Double,
     @field:SerializedName("average_count")
     val averageCount: Long,
     val description: String,

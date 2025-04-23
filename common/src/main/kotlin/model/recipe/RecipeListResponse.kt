@@ -11,7 +11,7 @@ data class RecipeListResponse(
     val image: String,
     val isFavorite: Boolean,
     val favorites: Long,
-    val rating: BigDecimal,
+    val rating: Double,
     @field:SerializedName("estimation_time")
     val estimationTime: Int,
 )
