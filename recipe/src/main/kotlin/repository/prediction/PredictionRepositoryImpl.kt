@@ -7,6 +7,7 @@ import database.getBaseQuery
 import kotlinx.datetime.TimeZone
 import model.prediction.PredictionResultRequest
 import model.recipe.RecipeListResponse
+import open_ai.*
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.lowerCase
 import org.jetbrains.exposed.sql.select
@@ -20,7 +21,8 @@ import java.util.*
 
 class PredictionRepositoryImpl(
     private val db: DatabaseFactory,
-    private val cloudStorageService: CloudStorageService
+    private val cloudStorageService: CloudStorageService,
+    private val openApiService: OpenApiService
 ): PredictionRepository {
     override suspend fun insertPredictionResult(request: PredictionResultRequest, fileByte: ByteArray) {
         db.dbQuery {
@@ -57,5 +59,32 @@ class PredictionRepositoryImpl(
 
             (recipesByName + recipesByCategory).distinctBy { it.recipeId }
         }
+    }
+
+    override suspend fun classifyImage(uid: String, fileBytes: ByteArray): String {
+        val url = cloudStorageService.run { fileBytes.uploadFile("classification/$uid/") }
+        val request = ChatRequest(
+            model = "gpt-4.1-mini",
+            messages = listOf(
+                ChatMessage(
+                    role = "user",
+                    content = listOf(
+                        ChatMessageContent(
+                            type = "text",
+                            text = "Describe what this picture is. Answer directly, no explanation, no period, and use the case format Aaaa Bbbb. If it is not classified as an image of food, return the words Not A Food"
+                        ),
+                        ChatMessageContent(
+                            type = "image_url",
+                            imageUrl = ChatMessageContentImageUrl(
+                                url,
+                                "high"
+                            )
+                        )
+                    )
+                )
+            ),
+            maxTokens = 1000,
+        )
+        return openApiService.getChatResponse(request)
     }
 }

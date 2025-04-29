@@ -9,6 +9,7 @@ fun Application.configureInjection() {
             tokenModule,
             storageModule,
             emailModule,
+            openAIModule,
             middlewareModule,
             authModule,
             recipeModule,

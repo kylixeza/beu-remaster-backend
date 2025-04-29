@@ -8,6 +8,8 @@ import com.zaxxer.hikari.HikariDataSource
 import database.DatabaseFactory
 import email.EmailService
 import email.HelpCenterEmailServiceImpl
+import open_ai.ImageVisionService
+import open_ai.OpenApiService
 import org.koin.dsl.module
 import security.hashing.HashingService
 import security.hashing.SHA256HashingService
@@ -81,4 +83,8 @@ val emailModule = module {
 val tokenModule = module {
     single<TokenService> { JWTTokenService(get()) }
     single<HashingService> { SHA256HashingService() }
+}
+
+val openAIModule = module {
+    single<OpenApiService> { ImageVisionService() }
 }

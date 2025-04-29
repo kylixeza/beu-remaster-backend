@@ -10,6 +10,7 @@ import Version.postgresqlVersion
 import Version.slf4jVersion
 import Version.kotlinxDateTime
 import Version.ipGeolocationVersion
+import Version.ktorVersion
 
 object App {
     const val version = "1.0.0"
@@ -33,7 +34,7 @@ object Modules {
 }
 
 object Version {
-    const val kotlinVersion = "1.9.22"
+    const val kotlinVersion = "2.1.20"
     const val ktorVersion = "2.3.7"
     const val exposedVersion = "0.45.0"
     const val postgresqlVersion = "42.5.4"
@@ -49,6 +50,7 @@ object Version {
 }
 
 object Libs {
+
     object Ktor {
         const val core = "io.ktor:ktor-server-core-jvm"
         const val auth = "io.ktor:ktor-server-auth-jvm"
@@ -65,6 +67,12 @@ object Libs {
         const val logback = "ch.qos.logback:logback-classic:$logbackVersion"
 
         const val test = "io.ktor:ktor-server-tests-jvm"
+    }
+
+    object KtorClient {
+        const val core = "io.ktor:ktor-client-core:$ktorVersion"
+        const val cio = "io.ktor:ktor-client-cio:$ktorVersion"
+        const val cn = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
     }
 
     object Exposed {

@@ -42,7 +42,7 @@ val nutritionModule = module {
 }
 
 val predictionModule = module {
-    single<PredictionRepository> { PredictionRepositoryImpl(get(), get()) }
+    single<PredictionRepository> { PredictionRepositoryImpl(get(), get(), get()) }
     single<PredictionController> { PredictionControllerImpl(get()) }
     single { PredictionRoute(get(), get()) }
 }

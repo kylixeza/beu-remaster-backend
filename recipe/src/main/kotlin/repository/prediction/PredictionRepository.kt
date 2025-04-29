@@ -6,4 +6,5 @@ import model.recipe.RecipeListResponse
 interface PredictionRepository {
     suspend fun insertPredictionResult(request: PredictionResultRequest, fileByte: ByteArray)
     suspend fun getRelatedRecipes(uid: String, query: String): List<RecipeListResponse>
+    suspend fun classifyImage(uid: String, fileBytes: ByteArray): String
 }

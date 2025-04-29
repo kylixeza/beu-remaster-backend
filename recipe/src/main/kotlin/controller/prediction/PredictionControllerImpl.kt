@@ -6,6 +6,7 @@ import com.google.gson.Gson
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
+import model.prediction.PredictionResponse
 import model.prediction.PredictionResultRequest
 import repository.prediction.PredictionRepository
 
@@ -42,5 +43,31 @@ class PredictionControllerImpl(
 
     override suspend fun ApplicationCall.getRelatedRecipes(uid: String, query: String) {
         buildSuccessListResponse { repository.getRelatedRecipes(uid, query) }
+    }
+
+    override suspend fun ApplicationCall.classifyImage(uid: String) {
+        val multipart = receiveMultipart()
+        var fileByte: ByteArray? = null
+
+        multipart.forEachPart { part ->
+            when (part) {
+                is PartData.FileItem -> {
+                    fileByte = part.streamProvider().readBytes()
+                }
+                else -> {}
+            }
+            part.dispose()
+        }
+
+        if (fileByte != null) {
+            val result = repository.classifyImage(uid, fileByte ?: return)
+            val relatedRecipes = repository.getRelatedRecipes(uid, result)
+            val response = PredictionResponse(
+                classifiedImage = result,
+                isFood = result != "Not A Food",
+                relatedRecipes = relatedRecipes
+            )
+            buildSuccessResponse { response }
+        }
     }
 }

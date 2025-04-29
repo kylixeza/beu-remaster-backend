@@ -25,6 +25,14 @@ class PredictionRoute(
                 }
             }
         }
+
+        route("/classify") {
+            middleware.apply {
+                authenticate(HTTPVerb.POST) { uid, call ->
+                    predictionController.apply { call.classifyImage(uid) }
+                }
+            }
+        }
     }
 
 }
