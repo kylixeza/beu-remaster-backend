@@ -62,7 +62,7 @@ class PredictionRepositoryImpl(
     }
 
     override suspend fun classifyImage(uid: String, fileBytes: ByteArray): String {
-        val url = cloudStorageService.run { fileBytes.uploadFile("classification/$uid/") }
+        val base64Image = Base64.getEncoder().encodeToString(fileBytes)
         val request = ChatRequest(
             model = "gpt-4.1-mini",
             messages = listOf(
@@ -71,12 +71,14 @@ class PredictionRepositoryImpl(
                     content = listOf(
                         ChatMessageContent(
                             type = "text",
-                            text = "Describe what this picture is. Answer directly, no explanation, no period, and use the case format Aaaa Bbbb. If it is not classified as an image of food, return the words Not A Food"
+                            text = "Describe what this picture is. Answer directly, no explanation, no period, and use the case format Aaaa Bbbb. " +
+                                    "The result must be translated into Indoensian. " +
+                                    "If it is not classified as an image of food, return the words Not A Food. "
                         ),
                         ChatMessageContent(
                             type = "image_url",
                             imageUrl = ChatMessageContentImageUrl(
-                                url,
+                                "data:image/jpeg;base64,$base64Image",
                                 "high"
                             )
                         )
