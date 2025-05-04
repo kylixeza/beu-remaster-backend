@@ -1,19 +1,20 @@
-package controller.prediction
+package controller.recognition
 
 import base.buildSuccessListResponse
 import base.buildSuccessResponse
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import model.prediction.PredictionResponse
 import model.prediction.PredictionResultRequest
-import repository.prediction.PredictionRepository
+import repository.recognition.RecognitionRepository
 
-class PredictionControllerImpl(
-    private val repository: PredictionRepository
-): PredictionController {
-    override suspend fun ApplicationCall.insertPredictionResult() {
+class RecognitionControllerImpl(
+    private val repository: RecognitionRepository
+): RecognitionController {
+    override suspend fun ApplicationCall.insertRecognitionResult() {
         val multipart = receiveMultipart()
         var body: PredictionResultRequest? = null
         var fileByte: ByteArray? = null
@@ -36,16 +37,17 @@ class PredictionControllerImpl(
         }
 
         if (body !== null && fileByte != null) {
-            repository.insertPredictionResult(body ?: return, fileByte ?: return)
+            repository.insertRecognitionResult(body ?: return, fileByte ?: return)
             buildSuccessResponse { "Prediction result was added successfully" }
         }
     }
 
+    @Deprecated("Use recognizeImage instead")
     override suspend fun ApplicationCall.getRelatedRecipes(uid: String, query: String) {
-        buildSuccessListResponse { repository.getRelatedRecipes(uid, query) }
+        buildSuccessListResponse { repository.getRelatedRecipes(uid, query, null) }
     }
 
-    override suspend fun ApplicationCall.classifyImage(uid: String) {
+    override suspend fun ApplicationCall.recognizeImage(uid: String) {
         val multipart = receiveMultipart()
         var fileByte: ByteArray? = null
 
@@ -60,11 +62,17 @@ class PredictionControllerImpl(
         }
 
         if (fileByte != null) {
-            val result = repository.classifyImage(uid, fileByte ?: return)
-            val relatedRecipes = repository.getRelatedRecipes(uid, result)
+            val result = repository.recognizeImage(uid, fileByte ?: return)
+
+            val mapType = object : TypeToken<Map<String, String>>() {}.type
+            val recognitionResult = Gson().fromJson<Map<String, String>>(result, mapType)
+            val recognizedImage = recognitionResult["result"] ?: "Not A Food"
+            val closestCategory = recognitionResult["closest_category"] ?: "Not A Food"
+
+            val relatedRecipes = repository.getRelatedRecipes(uid, recognizedImage, closestCategory)
             val response = PredictionResponse(
-                classifiedImage = result,
-                isFood = result != "Not A Food",
+                classifiedImage = recognizedImage,
+                isFood = recognizedImage != "Not A Food",
                 relatedRecipes = relatedRecipes
             )
             buildSuccessResponse { response }

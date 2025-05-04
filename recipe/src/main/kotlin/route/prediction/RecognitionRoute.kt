@@ -1,11 +1,11 @@
 package route.prediction
 
 import Middleware
-import controller.prediction.PredictionController
+import controller.recognition.RecognitionController
 import io.ktor.server.routing.*
 
-class PredictionRoute(
-    private val predictionController: PredictionController,
+class RecognitionRoute(
+    private val recognitionController: RecognitionController,
     private val middleware: Middleware,
 ) {
 
@@ -14,22 +14,22 @@ class PredictionRoute(
 
             middleware.apply {
                 authenticate(HTTPVerb.POST) { _, call ->
-                    predictionController.apply { call.insertPredictionResult() }
+                    recognitionController.apply { call.insertRecognitionResult() }
                 }
             }
 
             middleware.apply {
                 authenticate(HTTPVerb.GET) { uid, call ->
                     val query = call.request.queryParameters["query"].orEmpty()
-                    predictionController.apply { call.getRelatedRecipes(uid, query) }
+                    recognitionController.apply { call.getRelatedRecipes(uid, query) }
                 }
             }
         }
 
-        route("/classify") {
+        route("/recognition") {
             middleware.apply {
                 authenticate(HTTPVerb.POST) { uid, call ->
-                    predictionController.apply { call.classifyImage(uid) }
+                    recognitionController.apply { call.recognizeImage(uid) }
                 }
             }
         }

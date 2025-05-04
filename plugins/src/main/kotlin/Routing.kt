@@ -1,12 +1,10 @@
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import route.*
 import route.category.CategoryRoute
 import route.nutrition.NutritionRoute
-import route.prediction.PredictionRoute
+import route.prediction.RecognitionRoute
 import route.recipe.RecipeRoute
 
 fun Application.configureRouting() {
@@ -14,7 +12,7 @@ fun Application.configureRouting() {
     val categoryRoute by inject<CategoryRoute>()
     val nutritionRoute by inject<NutritionRoute>()
     val recipeRoute by inject<RecipeRoute>()
-    val predictionRoute by inject<PredictionRoute>()
+    val recognitionRoute by inject<RecognitionRoute>()
     val commentRoute by inject<CommentRoute>()
     val historyRoute by inject<HistoryRoute>()
     val reviewRoute by inject<ReviewRoute>()
@@ -34,7 +32,7 @@ fun Application.configureRouting() {
                 commentRoute,
                 favoriteRoute
             )}
-            predictionRoute.apply { prediction() }
+            recognitionRoute.apply { prediction() }
             historyRoute.apply { histories(
                 reviewRoute
             ) }
